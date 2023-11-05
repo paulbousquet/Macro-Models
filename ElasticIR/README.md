@@ -9,3 +9,6 @@ Changes made include (I'm sure the other models would run after similar changes)
 * [Updated the use of the subs function](https://www.mathworks.com/matlabcentral/answers/449408-error-using-sym-subs-too-many-input-arguments-error-in-mx_model-line-176-f-subs-f-cup-cu-0), which previously allowed 4 inputs. The code has been modified so that the order of arguments is flipped if the subs function returns the same thing (where relevant)
 * There is a file to manually create matricies, but it produced several errors. There were no brakcets in the lines to create the matricies and the index to begin parsing was set at 8 for all cases, when it should have only been some, removing 2 of the matrix elements.
 * The steady states weren't properly defined (the "prime" variables have been manually added)
+
+# Derivation of Second Order 
+$ \gamma$
