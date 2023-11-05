@@ -1,4 +1,4 @@
-# Elastic Interest Rates 
+# Elastic Interest Rate 
 In the "secondO" folder, there is a second order approximation to the elastic interest rate model in the "[Closing small open economy models](https://www1.columbia.edu/~mu2166/closing_jie.pdf)" paper. All that's needed is to run eir_run. The purpose of this code is to see how well it minimizes Euler equation errors, rather than impulse responses as the paper's original code, which has a goal of producing IRF based on a first order approximation. 
 
 Additionally, the [code](https://www1.columbia.edu/~mu2166/closing.htm) originally provided for the model is more than 20 years old and does not work in the current version of Matlab. The following codes in the "orig" folder will run successfully. 
