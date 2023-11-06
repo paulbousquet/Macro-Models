@@ -160,7 +160,7 @@ $$
 \begin{bmatrix}
  u_c(t)=\beta(1+r_t)\mathbb{E}\_t[u_c(t+1)]\\
     -u_h(t)=u_c(t)A_tF_h(t) \\
- u_c(t)\left[1+\Phi'(k_{t+1}-k_t)\right]=\beta \mathbb{E}\_t\left[u_c(t+1)\left\{A_{t+1}F_k(t+1)+1-\delta +\Phi'(k_{t+2}-k_{t-1})\right\}\right]
+ u_c(t)\left[1+\Phi'(k_{t+1}-k_t)\right]=\beta \mathbb{E}\_t\left[u_c(t+1)\left\\{A_{t+1}F_k(t+1)+1-\delta +\Phi'(k_{t+2}-k_{t-1})\right\\}\right]
 \end{bmatrix}
 \end{aligned}
 $$
@@ -172,7 +172,7 @@ $$
 ee(\textbf{x},\textbf{y})=\begin{bmatrix}
  -u_c(t)+\beta(1+r_t)\mathbb{E}\_t[u_c(t+1)]\\
     u_h(t)+u_c(t)A_tF_h(t) \\
- -u_c(t)\left[1+\Phi'(k_{t+1}-k_t)\right]+\beta \mathbb{E}\_t\left[u_c(t+1)\left\{A_{t+1}F_k(t+1)+1-\delta +\Phi'(k_{t+2}-k_{t-1})\right\}\right]
+ -u_c(t)\left[1+\Phi'(k_{t+1}-k_t)\right]+\beta \mathbb{E}\_t\left[u_c(t+1)\left\\{A_{t+1}F_k(t+1)+1-\delta +\Phi'(k_{t+2}-k_{t-1})\right\\}\right]
 \end{bmatrix}
 \end{aligned}
 $$
