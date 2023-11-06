@@ -12,9 +12,19 @@ Changes made include (I'm sure the other models would run after similar changes)
 
 # Second Order
 $$
-x=\begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix}
-\text{ and }
-y=\begin{bmatrix} y_1 \\ \vdots \\ y_k \end{bmatrix}
+\begin{aligned}
+x&=\begin{bmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{bmatrix}
+&
+y&=\begin{bmatrix}
+y_1 \\
+\vdots \\
+y_k
+\end{bmatrix}
+\end{aligned}
 $$
 
 
