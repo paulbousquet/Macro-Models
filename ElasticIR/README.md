@@ -13,28 +13,5 @@ Changes made include (I'm sure the other models would run after similar changes)
 # Second Order
 Say you have $`x`$, a vector of $`n`$ state variables, $`y`$, a vector of $`k`$ controls, and $`f`$, a vector of $`m=n+k`$ equations. Let $`\textbf{x}=(x,x')`$: and $`\textbf{y}=(y,y')`$
 
-$$
-\begin{aligned}
-x&=\begin{bmatrix}
-x_1 \\
-\vdots \\
-x_n
-\end{bmatrix}
-& 
-y&=\begin{bmatrix}
-y_1 \\
-\vdots \\
-y_k
-\end{bmatrix}
-& 
-f(\textbf{x},\textbf{y})&=\begin{bmatrix}
-f_1(\textbf{x},\textbf{y}) \\
-\vdots \\
-f_m(\textbf{x},\textbf{y})
-\end{bmatrix}
-\end{aligned}
-$$
-
-Schmitt-Grohé and Uribe made a contribution to the literature by integrating Matlab's symbolic toolbox with this standard economic paradigm, allowing for the formulation of Taylor-type approximations to policy functions and state evolution equations. Specifically, we denote $` h(x) `$ as the state evolution equation and $`g(x)`$ as the policy functions. To do a second order approximation of the evolution of the $` i`$th  state variable, we do the following 
 
 
