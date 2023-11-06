@@ -11,6 +11,8 @@ Changes made include (I'm sure the other models would run after similar changes)
 * The steady states weren't properly defined (the "prime" variables have been manually added)
 
 # Second Order
+Say you have $`x`$, a vector of $`n`$ state variables, $`y`$, a vector of $`k`$ controls, and $`f`$, a vector of $`m=n+k`$ equations. Let $`\textbf{x}=(x,x')`$: and $`\textbf{y}=(y,y')`$
+
 $$
 \begin{aligned}
 x&=\begin{bmatrix}
@@ -25,10 +27,10 @@ y_1 \\
 y_k
 \end{bmatrix}
 & 
-f(x,y)&=\begin{bmatrix}
-f_1(x,y) \\
+f(\textbf{x},\textbf{y})&=\begin{bmatrix}
+f_1(\textbf{x},\textbf{y}) \\
 \vdots \\
-f_m(x,y)
+f_m(\textbf{x},\textbf{y})
 \end{bmatrix}
 \end{aligned}
 $$
