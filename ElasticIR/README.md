@@ -12,10 +12,6 @@ Changes made include (I'm sure the other models would run after similar changes)
 
 # Derivation of Second Order 
 Let's say we have the following system: $` x`$ is a vector of states and $`y`$ is a vector of controls 
-$$  \begin{bmatrix}
-    a \\
-    b \\
-    c \\
-    \end{bmatrix} $$ 
+$$  \left[x_1\atop \vdots\atop Y\right]$$ 
 
 
