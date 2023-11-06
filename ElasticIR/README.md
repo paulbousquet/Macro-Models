@@ -35,7 +35,9 @@ f_m(\textbf{x},\textbf{y})
 \end{aligned}
 $$
 
-Schmitt-Grohé and Uribe made a contribution to the literature by integrating Matlab's symbolic toolbox with this standard economic paradigm, allowing for the formulation of Taylor-type approximations to policy functions and state evolution equations. Specifically, we denote $` h(x) `$ as the state evolution equation and $`g(x)`$ as the policy functions. To do a second order approximation of the evolution of the $` i`$th  state variable, we do the following 
+Schmitt-Grohé and Uribe made a contribution to the literature by integrating Matlab's symbolic toolbox with this standard economic paradigm. A good reference for the following discussion is their short but well cited [paper](https://faculty.wcas.northwestern.edu/lchrist/papers/perturbation.pdf), in particular section 4 which goes through an example with 1 control and 2 states. Here, I present the general case and break down each step in their derivation. The basic roadmap is that we will formulate Taylor-type approximations to policy functions and state evolution equations and then measure the quality of these approximations looking at how big the errors in the Euler equations are. 
+
+We denote $` h(x) `$ as the state evolution equation and $`g(x)`$ as the policy functions. To do a second order approximation of the evolution of the $` i`$th  state variable, we do the following 
 
 $$
 h_i(x) \approx x_i^\ast+h_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Th_{xx}^\ast(x_i)\widehat{x}+\sigma^2h^\ast_{\sigma\sigma}(x_i) \right]
