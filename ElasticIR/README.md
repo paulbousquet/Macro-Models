@@ -10,8 +10,4 @@ Changes made include (I'm sure the other models would run after similar changes)
 * There is a file to manually create matricies, but it produced several errors. There were no brakcets in the lines to create the matricies and the index to begin parsing was set at 8 for all cases, when it should have only been some, removing 2 of the matrix elements.
 * The steady states weren't properly defined (the "prime" variables have been manually added)
 
-# Derivation of Second Order 
-Let's say we have the following system: $` x`$ is a vector of states and $`y`$ is a vector of controls 
-$$\left[x_1\atop \vdots\atop x_n\right]$$ 
-
 
