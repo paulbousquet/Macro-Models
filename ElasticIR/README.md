@@ -158,11 +158,33 @@ Let's say the first $`M`$ equations of $`f`$ correspond to Euler equations. To f
 $$
 \begin{aligned}
 \begin{bmatrix}
- u_c(t)=\beta(1+r_t)\mathbb{E}_t[u_c(t+1)]\\
+ u_c(t)=\beta(1+r_t)\mathbb{E}\_t[u_c(t+1)]\\
     -u_h(t)=u_c(t)A_tF_h(t) \\
- u_c(t)\left[1+\Phi'(k_{t+1}-k_t)\right]=\beta \mathbb{E}_t\left[u_c(t+1)\left\{A_{t+1}F_k(t+1)+1-\delta +\Phi'(k_{t+2}-k_{t-1})\right\}\right]
+ u_c(t)\left[1+\Phi'(k_{t+1}-k_t)\right]=\beta \mathbb{E}\_t\left[u_c(t+1)\left\{A_{t+1}F_k(t+1)+1-\delta +\Phi'(k_{t+2}-k_{t-1})\right\}\right]
 \end{bmatrix}
 \end{aligned}
+$$
+
+Define the euler equation errors as follows 
+
+$$
+\begin{aligned}
+ee(\textbf{x},\textbf{y})=\begin{bmatrix}
+ -u_c(t)+\beta(1+r_t)\mathbb{E}\_t[u_c(t+1)]\\
+    u_h(t)+u_c(t)A_tF_h(t) \\
+ -u_c(t)\left[1+\Phi'(k_{t+1}-k_t)\right]+\beta \mathbb{E}\_t\left[u_c(t+1)\left\{A_{t+1}F_k(t+1)+1-\delta +\Phi'(k_{t+2}-k_{t-1})\right\}\right]
+\end{bmatrix}
+\end{aligned}
+$$
+
+Therefore the errors for our approximation are $` ee(\textbf{x}^{\tilde{h}},\textbf{y}^{\tilde{g}})`$, where $`\tilde{h},\tilde{g}`$ are our second order approximations. To compute the errors. one thing we could do is take the average squared error over grids of capital, technology, and hours. Say that we have $`N `$ points in each grid. Then we could plot the average squared  EE errors vs. capital using the following 
+
+$$
+\begin{gather*}
+\frac{1}{N^3}\sum_{i=1}^N \sum_{j=1}^N \sum_{l=1}^N ee(\textbf{x}_{ijl}^{\tilde{h}},\textbf{y}_{ijl}^{\tilde{g}})^2 \\
+\text{where } \textbf{x}_{ijl}^{\tilde{h}}=(x_{ijl},\tilde{h}(x_{ijl}))=(\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{h}[\textbf{(}k_i,A_j,d_l\textbf{)}]) \\
+\text{and } \textbf{y}_{ijl}^{\tilde{g}} =(\tilde{g}(x_{ijl}),\tilde{g}[\tilde{h}(x_{ijl})])=(\tilde{g}\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{g}[\tilde{h}(\textbf{(}k_i,A_j,d_l\textbf{)})])
+\end{gather*}
 $$
 
 
