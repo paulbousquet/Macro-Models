@@ -12,6 +12,8 @@ Changes made include (I'm sure the other models would run after similar changes)
 
 # Second Order
 Say you have $`x`$, a vector of $`n`$ state variables, $`y`$, a vector of $`k`$ controls, and $`f`$, a vector of $`m=n+k`$ equations. Let $`\textbf{x}=(x,x')`$: and $`\textbf{y}=(y,y')`$ . Then:
+
+
 $$
 \begin{aligned}
 x&=\begin{bmatrix}
