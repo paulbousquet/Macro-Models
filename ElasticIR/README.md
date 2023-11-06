@@ -153,4 +153,37 @@ f_m(\textbf{x}^h,\textbf{y}^g)
 \end{aligned}
 $$
 
-Let's say the first $`M`$ equations of $`f`$ correspond to Euler equations. To find the EE erros, we simply plug in our approximation to the first $`M`$ equations. However, this becomes complicated in practice by the fact that we may have multiple state variables. For each state variable, chances are it needs its own grid, unless it's entirely pinned down by other state variables. 
+Let's say the first $`M`$ equations of $`f`$ correspond to Euler equations. To find the EE erros, we simply plug in our approximation to the first $`M`$ equations. However, this becomes complicated in practice by the fact that we may have multiple state variables. For each state variable, chances are it needs its own grid, unless it's entirely pinned down by other state variables. We have been general up until now, but we can introduce the elastic interest rate example. We can use $`r_{t-1}=r^\ast+\psi[\exp(d_{t-1}-d^\ast)-1]`$ to not have to construct an interest rate grid. Our EE are 
+
+$$
+\begin{aligned}
+\begin{bmatrix}
+ u_c(t)=\beta(1+r_t)\mathbb{E}_t[u_c(t+1)]\\
+    -u_h(t)=u_c(t)A_tF_h(t) \\
+ u_c(t)\left[1+\Phi'(k_{t+1}-k_t)\right]=\beta \mathbb{E}_t\left[u_c(t+1)\left\{A_{t+1}F_k(t+1)+1-\delta +\Phi'(k_{t+2}-k_{t-1})\right\}\right]
+\end{bmatrix}
+\end{aligned}
+$$
+Define the euler equation errors as follows 
+
+$$
+\begin{aligned}
+ee(\textbf{x},\textbf{y})=\begin{bmatrix}
+ -u_c(t)+\beta(1+r_t)\mathbb{E}_t[u_c(t+1)]\\
+    u_h(t)+u_c(t)A_tF_h(t) \\
+ -u_c(t)\left[1+\Phi'(k_{t+1}-k_t)\right]+\beta \mathbb{E}_t\left[u_c(t+1)\left\{A_{t+1}F_k(t+1)+1-\delta +\Phi'(k_{t+2}-k_{t-1})\right\}\right]
+\end{bmatrix}
+\end{aligned}
+$$
+
+Therefore the errors for our approximation are $` ee(\textbf{x}^{\tilde{h}},\textbf{y}^{\tilde{g}})`$, where $`\tilde{h},\tilde{g}`$ are our second order approximations. To compute the errors. one thing we could do is take the average squared error over grids of capital, technology, and hours. Say that we have $`N `$ points in each grid. Then we could plot the average squared  EE errors vs. capital using the following 
+
+$$
+\begin{gather*}
+\frac{1}{N^3}\sum_{i=1}^N \sum_{j=1}^N \sum_{l=1}^N ee(\textbf{x}_{ijl}^{\tilde{h}},\textbf{y}_{ijl}^{\tilde{g}})^2 \\
+\text{where } \textbf{x}_{ijl}^{\tilde{h}}=(x_{ijl},\tilde{h}(x_{ijl}))=(\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{h}[\textbf{(}k_i,A_j,d_l\textbf{)}]) \\
+\text{and } \textbf{y}_{ijl}^{\tilde{g}} =(\tilde{g}(x_{ijl}),\tilde{g}[\tilde{h}(x_{ijl})])=(\tilde{g}\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{g}[\tilde{h}(\textbf{(}k_i,A_j,d_l\textbf{)})])
+\end{gather*}
+$$
+
+[^1]: I leave $`x_i`$ as an argument since typically our variables have economic meaning which is more useful/intuitive than making row numbers more of a prominent object in interest. To further justify $`x_i`$ as an argument, we consider the following formulation where $`x_i`$ is used to select a row 
