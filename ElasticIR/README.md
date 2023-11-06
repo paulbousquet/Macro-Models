@@ -108,8 +108,8 @@ $$
 * From our original second order equation[^1], $`h_x^*(x_i)`$ is the $`i`$th row of  $`h_x`$ evaluated at the steady state (thus the star).  As seen above, this is all possible (first) partial derivatives of $`h_i`$.
 
 $$
-h_x^\ast(x_i)&=[h_x^\ast]_{x_i}=\begin{aligned}
-\begin{bmatrix}
+\begin{aligned}
+h_x^\ast(x_i)=[h_x^\ast]_{x_i}=\begin{bmatrix}
 \frac{\partial h_i}{\partial x_1}(x^\ast) & \cdots & \frac{\partial h_i}{\partial x_n}(x^\ast)
 \end{bmatrix}
 \end{aligned}
