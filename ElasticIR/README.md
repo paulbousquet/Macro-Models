@@ -12,8 +12,12 @@ Changes made include (I'm sure the other models would run after similar changes)
 
 # Derivation of Second Order 
 Let's say we have the following system: $` x`$ is a vector of states and $`y`$ is a vector of controls 
-```math
-begin{bmatrix}X\\Y\end{bmatrix}
-```
+$$x_{k} = \begin{bmatrix}
+x_{k} \\
+x'_{k}
+\end{bmatrix} = \begin{bmatrix}
+x_{k-1} + x'_{k-1}\Delta t + \frac{x''_{k-1}(\Delta t^2)}{2} \\
+x'_{k-1} + x''_{k-1}t
+\end{bmatrix} \tag{15}$$
 
 
