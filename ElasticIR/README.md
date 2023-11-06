@@ -38,7 +38,7 @@ $$
 Schmitt-Grohé and Uribe made a contribution to the literature by integrating Matlab's symbolic toolbox with this standard economic paradigm, allowing for the formulation of Taylor-type approximations to policy functions and state evolution equations. Specifically, we denote $` h(x) `$ as the state evolution equation and $`g(x)`$ as the policy functions. To do a second order approximation of the evolution of the $` i`$th  state variable, we do the following 
 
 $$
-h(x_i) \approx x_i^\ast+h_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Th_{xx}^\ast(x_i)\widehat{x}+\sigma^2h^\ast_{\sigma\sigma}(x_i) \right]
+h_i(x) \approx x_i^\ast+h_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Th_{xx}^\ast(x_i)\widehat{x}+\sigma^2h^\ast_{\sigma\sigma}(x_i) \right]
 $$
 
 Notation: we have the usual $`x_i^* `$ denoting the steady state of $`x_i`$, $`\widehat{x}_i`$ denoting "linearization" by $`x_i-x_i^* `$, and $` \sigma^2 `$ denoting the variable of the stochastic component of the system. The non-standard notation is are the coefficient components. These correspond to the coefficients necessary to approximate the solution to the system of equations at the steady state. Specifically, let $`\textbf{x}^h=(x,h(x))`$: and $`\textbf{y}^g =(g(x),g(h(x)))`$. We can exploit the fact that the $`h`$ and $`g`$ must satisfy the following 
@@ -112,7 +112,7 @@ h_x^\ast(x_i)&=[h_x^\ast]_{x_i}=\begin{bmatrix}
 \end{aligned}
 $$
 
-* For the second derivatives, we technically don't have a matrix but instead an array of second derivatives: a collection of $`n`$ matrices of size $`n \times n`$. The first matrix is the partial derivative of the $`h_x`$ matrix w.r.t $`x_1`$, the second matrix are partials w.r.t $`x_2`$ and so on, We are interested in the partial derivatives of $`\nabla h_i`$, and these will just correspond to the $`i`$th row in each matrix. Casting this in linear algebra format 
+* For the second derivatives, we technically don't have a matrix but instead an array of second derivatives: a collection of $`n`$ matrices of size $`n \times n`$. The first matrix is the partial derivative of the $`h_x`$ matrix w.r.t $`x_1`$, the second matrix are partials w.r.t $`x_2`$ and so on, We are interested in the partial derivatives of $`\nabla h_i`$, and these will just correspond to the $`i`$th row in each matrix. Casting this in linear algebra format  (selecting these rows and then using a row combination)
 
 $$
 \begin{aligned}
@@ -139,6 +139,18 @@ $$
 g_i(x) \approx x_i^\ast+g_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Tg_{xx}^\ast(x_i)\widehat{x}+\sigma^2g^\ast_{\sigma\sigma}(x_i) \right]
 $$
 
-where are $`g_x^*(x_i),\ g_x^*(x_i), \ g_{\sigma\sigma}^*(x_i)`$ aredefined the same way as before but now everything is length $`k`$ 
+where are $`g_x^*(x_i),\ g_x^*(x_i), \ g_{\sigma\sigma}^*(x_i)`$ are defined the same way as before but now everything is length $`k`$ 
 
-[^1]: I leave $`x_i`$ as an argument since typically our variables have economic meaning which is more useful/intuitive than making row numbers more of a prominent object in interest. To further justify $`x_i`$ as an argument, we consider the following formulation where $`x_i`$ is used to select a row 
+Recall our earlier structure: $`\textbf{x}^h=(x,h(x))`$:, $`\textbf{y}^g =(g(x),g(h(x)))`$, and 
+
+$$
+\begin{aligned}
+f(\textbf{x}^h,\textbf{y}^g)&=\begin{bmatrix}
+f_1(\textbf{x}^h,\textbf{y}^g) \\
+\vdots \\
+f_m(\textbf{x}^h,\textbf{y}^g)
+\end{bmatrix}
+\end{aligned}
+$$
+
+Let's say the first $`M`$ equations of $`f`$ correspond to Euler equations. To find the EE erros, we simply plug in our approximation to the first $`M`$ equations. However, this becomes complicated in practice by the fact that we may have multiple state variables. For each state variable, chances are it needs its own grid, unless it's entirely pinned down by other state variables. 
