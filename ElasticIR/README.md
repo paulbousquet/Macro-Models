@@ -164,6 +164,7 @@ $$
 \end{bmatrix}
 \end{aligned}
 $$
+
 Define the euler equation errors as follows 
 
 $$
