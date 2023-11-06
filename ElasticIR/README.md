@@ -12,6 +12,7 @@ Changes made include (I'm sure the other models would run after similar changes)
 
 # Second Order
 Say you have $`x`$, a vector of $`n`$ state variables, and $`y`$, a vector of $`k`$ controls:
+
 $$
 \begin{aligned}
 x&=\begin{bmatrix}
