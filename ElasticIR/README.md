@@ -11,4 +11,6 @@ Changes made include (I'm sure the other models would run after similar changes)
 * The steady states weren't properly defined (the "prime" variables have been manually added)
 
 # Derivation of Second Order 
-$` \gamma `$
+Let's say we have the following system: $` x`$ is a vector of states and $`y`$ is a vector of controls 
+$$ f$$
+
