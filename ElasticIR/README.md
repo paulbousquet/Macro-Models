@@ -138,6 +138,7 @@ The policy function approximations are
 $$
 g_i(x) \approx x_i^\ast+g_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Tg_{xx}^\ast(x_i)\widehat{x}+\sigma^2g^\ast_{\sigma\sigma}(x_i) \right]
 $$
+
 where are $`g_x^*(x_i),g_x^*(x_i), g_{\sigma\sigma}^*(x_i)`$ aredefined the same way as before but now everything is length $`k`$ 
 
 [^1]: I leave $`x_i`$ as an argument since typically our variables have economic meaning which is more useful/intuitive than making row numbers more of a prominent object in interest. To further justify $`x_i`$ as an argument, we consider the following formulation where $`x_i`$ is used to select a row 
