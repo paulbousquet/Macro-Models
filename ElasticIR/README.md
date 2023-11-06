@@ -59,7 +59,77 @@ $$
 
 to compute their derivatives. Two tricks in particular help simplify things: if a function $`F`$ evaluated at all values possible values of its argument is 0, then any derivative of $`F`$ also must be 0. This is the exact situation we have with our system. When we put our vector of functions $`f`$ into Matlab's symbolic toolbox, we move everything over to the RHS so the LHS is equal to 0. The other trick is the toolbox treats  $`\sigma`$ as an implicit argument to $`h`$ and $`g`$. Using this approach, we can find the derivatives of these functions and then evaluate them at the steady state to construct a Taylor approximation. These values are our coefficient components from before. 
 
-Now we have the context to decompose these coefficient matrices. The notation itself tries to enunciate the mechanical components of this approximation. 
-* To lay the syntactic background and simplify discussion on second derivatives, let's call $`h_x`$ the matrix of first derivatives of $`h`$. So each element in this matrix 
-* $`h_x^*(x_i)`$ is the component relating to $`x_i`$ in the matrix of first derivatives of $`h`$ evaluated at the steady state (thus the star). To be clear: the component relating to $`x_i`$ is the $`i`$th row of the first derivative matrix, representing the partial derivative w.r.t $`x_i`$. Therefore,  $`h_x^*(x_i)`$ is a $`n `$-dimensional row vector. 
-* For the second derivatives, we technically don't have a matrix but instead an array of second derivatives: a collection of $`n`$ matrices of size $`n \times n`$. 
+Now we have the context to decompose these coefficient matrices. The notation itself tries to enunciate the mechanical components of this approximation. We will break this up into several pieces to lay the syntactic background and to simplify the discussion of second derivatives (which can get complicated trying to describe in words)
+
+* To be explicit, $`h`$ is a vector of state evolution equations where $`i`$th element corresponds to $`x' = h_i(x)`$, the evolution of the $`i`$th state variable , or
+
+  
+
+$$
+\begin{aligned}
+h_x(x)&=\begin{bmatrix}
+h_1(x) \\
+\vdots\\
+h_n(x)
+\end{bmatrix}
+=\begin{bmatrix}
+x_1' \\
+\vdots\\
+x_n'
+\end{bmatrix}
+\end{aligned}
+$$
+
+  
+
+* Denote $`h_x`$ the matrix of first derivatives of $`h`$. So each element in this matrix corresponds to
+
+  
+
+$$
+\begin{aligned}
+h_x&=\begin{bmatrix}
+\frac{\partial h_1}{\partial x_1} & \dots & \frac{\partial h_1}{\partial x_n} \\
+\vdots &\ddots & \vdots \\
+\frac{\partial h_n}{\partial x_1} & \dots & \frac{\partial h_n}{\partial x_n}
+\end{bmatrix}
+=\begin{bmatrix}
+\nabla h_1^T \\
+\vdots \\
+\nabla h_n^T
+\end{bmatrix}
+\end{aligned}
+$$
+
+  
+
+* From our original second order equation[^1], $`h_x^*(x_i)`$ is the $`i`$th row of  $`h_x`$ evaluated at the steady state (thus the star).  As seen above, this is all possible (first) partial derivatives of $`h_i`$. 
+$$
+\begin{aligned}
+h_x^\ast(x_i)&=[h_x^\ast]_{x_i}=\begin{bmatrix}
+\frac{\partial h_i}{\partial x_1}(x^\ast) & \cdots & \frac{\partial h_i}{\partial x_n}(x^\ast)
+\end{bmatrix}
+\end{aligned}
+$$
+
+* For the second derivatives, we technically don't have a matrix but instead an array of second derivatives: a collection of $`n`$ matrices of size $`n \times n`$. The first matrix is the partial derivative of the $`h_x`$ matrix w.r.t $`x_1`$, the second matrix are partials w.r.t $`x_2`$ and so on, We are interested in the partial derivatives of $`\nabla h_i`$, and these will just correspond to the $`i`$th row in each matrix. Casting this in linear algebra format 
+
+$$
+\begin{aligned}
+h_{xx}^\ast(x_i)&=\begin{bmatrix}
+\frac{\partial ^2h_i}{\partial x_1^2}(x^\ast) & \dots & \frac{\partial^2h_i}{\partial x_1 \partial x_n} (x^\ast) \\
+\vdots &\ddots & \vdots \\
+\frac{\partial^2 h_i}{\partial x_n \partial x_1 }(x^\ast)  & \dots & \frac{\partial^2 h_i}{\partial x_n^2}(x^\ast) 
+\end{bmatrix}
+=\begin{bmatrix}
+ \left(\frac{\partial}{\partial x_1}\nabla h_i^T\right)(x^\ast) \\
+\vdots \\
+ \left(\frac{\partial}{\partial x_i}\nabla h_i^T\right)(x^\ast)
+\end{bmatrix}
+\end{aligned}
+$$
+* Then we also have the "stochastic second derivitives" but because all the cross terms are 0, this is just a singleton $`h_{\sigma \sigma}^\ast (x_i)= \frac{\partial^2 h_i}{\partial \sigma^2}(x^\ast)`$. 
+
+
+We have completely finished describing how to approximate the second order evolution equations. 
+[^1]: I leave $`x_i`$ as an argument since typically our variables have economic meaning which is more useful/intuitive than making row numbers more of a prominent object in interest. To further justify $`x_i`$ as an argument, we consider the following formulation where $`x_i`$ is used to select a row 
