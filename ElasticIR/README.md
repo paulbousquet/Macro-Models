@@ -181,9 +181,9 @@ Therefore the errors for our approximation are $` ee(\textbf{x}^{\tilde{h}},\tex
 
 $$
 \begin{gather*}
-\frac{1}{N^3}\sum_{i=1}^N \sum_{j=1}^N \sum_{l=1}^N ee(\textbf{x}_{ijl}^{\tilde{h}},\textbf{y}_{ijl}^{\tilde{g}})^2 \\
-\text{where } \textbf{x}_{ijl}^{\tilde{h}}=(x_{ijl},\tilde{h}(x_{ijl}))=(\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{h}[\textbf{(}k_i,A_j,d_l\textbf{)}]) \\
-\text{and } \textbf{y}_{ijl}^{\tilde{g}} =(\tilde{g}(x_{ijl}),\tilde{g}[\tilde{h}(x_{ijl})])=(\tilde{g}\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{g}[\tilde{h}(\textbf{(}k_i,A_j,d_l\textbf{)})])
+\frac{1}{N^3}\sum_{i=1}^N \sum_{j=1}^N \sum_{l=1}^N ee(\textbf{x}\_{ijl}^{\tilde{h}},\textbf{y}\_{ijl}^{\tilde{g}})^2 \\
+\text{where } \textbf{x}\_{ijl}^{\tilde{h}}=(x_{ijl},\tilde{h}(x_{ijl}))=(\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{h}[\textbf{(}k_i,A_j,d_l\textbf{)}]) \\
+\text{and } \textbf{y}\_{ijl}^{\tilde{g}} =(\tilde{g}(x_{ijl}),\tilde{g}[\tilde{h}(x_{ijl})])=(\tilde{g}\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{g}[\tilde{h}(\textbf{(}k_i,A_j,d_l\textbf{)})])
 \end{gather*}
 $$
 
