@@ -36,7 +36,6 @@ f_m(\textbf{x},\textbf{y})
 $$
 
 Schmitt-Grohé and Uribe made a contribution to the literature by integrating Matlab's symbolic toolbox with this standard economic paradigm, allowing for the formulation of Taylor-type approximations to policy functions and state evolution equations. Specifically, we denote $` h(x) `$ as the state evolution equation and $`g(x)`$ as the policy functions. To do a second order approximation of the evolution of the $` i`$th  state variable, we do the following 
-
 $$
 h(x_i) \approx x_i^*+h_x^*(x_i)\widehat{x}+\frac{1}{2}\left[\widehat{x}^Th_{xx}^*(x_i)\widehat{x}+\sigma^2h^*_{\sigma\sigma}(x_i)\right]
 $$
@@ -55,6 +54,7 @@ f_m(\textbf{x}^h,\textbf{y}^g)
 \end{bmatrix}
 \end{aligned}
 $$
+
 to compute their derivatives. Two tricks in particular help simplify things: if a function $`F`$ evaluated at all values possible values of its argument is 0, then any derivative of $`F`$ also must be 0. This is the exact situation we have with our system. When we put our vector of functions $`f`$ into Matlab's symbolic toolbox, we move everything over to the RHS so the LHS is equal to 0. The other trick is the toolbox treats  $`\sigma`$ as an implicit argument to $`h`$ and $`g`$. Using this approach, we can find the derivatives of these functions and then evaluate them at the steady state to construct a Taylor approximation. These values are our coefficient components from before. 
 
 Now we have the context to decompose these coefficient matrices. The notation itself tries to enunciate the mechanical components of this approximation. 
