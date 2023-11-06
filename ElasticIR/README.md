@@ -12,6 +12,6 @@ Changes made include (I'm sure the other models would run after similar changes)
 
 # Derivation of Second Order 
 Let's say we have the following system: $` x`$ is a vector of states and $`y`$ is a vector of controls 
-$$\leq x = \begin{bmat} x_1 \\\ a \\\ x_n \end{bmat} \quad \textbf{and} \quad y = \begin{bmat} y_1 \\\ a \\\ y_k \end{bmat}$$
+$$\leq x = \begin{bmat} x_1 \\\ a \\\ x_n \end{bmat} \textbf{and}  y = \begin{bmat} y_1 \\\ a \\\ y_k \end{bmat}$$
 
 
