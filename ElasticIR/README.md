@@ -134,6 +134,7 @@ $$
 We have completely finished describing how to approximate the second order evolution equations. 
 
 The policy function approximations are 
+
 $$
 g_i(x) \approx x_i^\ast+g_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Tg_{xx}^\ast(x_i)\widehat{x}+\sigma^2g^\ast_{\sigma\sigma}(x_i) \right]
 $$
