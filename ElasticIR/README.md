@@ -18,6 +18,8 @@ x_1 \\
 \vdots \\
 x_n
 \end{bmatrix}
+& 
+\text{ and }
 &
 y&=\begin{bmatrix}
 y_1 \\
