@@ -12,10 +12,14 @@ Changes made include (I'm sure the other models would run after similar changes)
 
 # Second Order
 $$
-\begin{bmatrix}
+x = \begin{bmatrix}
 x_1 \\
 \vdots \\
 x_n
+\end{bmatrix} \quad \textbf{and} y = \begin{bmatrix}
+y_1 \\
+\vdots \\
+k_n
 \end{bmatrix}
 $$
 
