@@ -12,5 +12,5 @@ Changes made include (I'm sure the other models would run after similar changes)
 
 # Derivation of Second Order 
 Let's say we have the following system: $` x`$ is a vector of states and $`y`$ is a vector of controls 
-$$ f$$
+$$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$$
 
