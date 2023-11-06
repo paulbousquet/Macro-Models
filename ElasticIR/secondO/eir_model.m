@@ -6,33 +6,24 @@ function [nx, ny,fx,fxp,fy,fyp,fypyp,fypy,fypxp,fypx,fyyp,fyy,fyxp,fyx,fxpyp,fxp
 
 syms RSTAR BETTA DBAR DELTA ALFA  PHI  RHO  STD_EPS_A ETASHOCK SIGG OMEGA PSSI
 
-syms c cp h hp d dp k kp kfu kfup  la lap tb tbp ivv ivvp r rp a ap output outputp
+syms c cp h hp d dp k kp kfu kfup r rp a ap
 
 %Equilibrium conditions. The symbols e1, e2, ... denote equation 1, equation2, ...
 
 %Evolution of debt
-e1 = -dp + (1+r)*d + c + ivv + PHI/2*(kp -k)^2 - output; 
-
-%Output
-e2 = -output + a*k^ALFA*h^(1-ALFA);
-
-%FOC w.r.t. consumption
-e3 = -la + (c-h^OMEGA/OMEGA)^(-SIGG); 
+e1 = -dp + (1+r)*d + c + kp - (1-DELTA)*k + .5*PHI*(kp -k)^(2) - a*k^ALFA*h^(1-ALFA); 
 
 %FOC w.r.t. h
 e4 = -h^(OMEGA-1)+ (1-ALFA) * a * (k/h)^ALFA;
 
 %FOC w.r.t. debt
-e5 = -la + BETTA * (1+rp) * lap;
+e5 = -(c-h^OMEGA/OMEGA)^(-SIGG)  + BETTA * (1+rp) * (cp-hp^OMEGA/OMEGA)^(-SIGG) ;
 
 %FOC w.r.t. capital
-e6 = -la* (1+PHI*(kp-k)) + BETTA * lap * (1-DELTA + ALFA * ap * (kp/hp)^(ALFA-1) + PHI * (kfup-kp));
+e6 = -(c-h^OMEGA/OMEGA)^(-SIGG)* (1+PHI*(kp-k)) + BETTA * (cp-hp^OMEGA/OMEGA)^(-SIGG) * (1-DELTA + ALFA * ap * (kp/hp)^(ALFA-1) + PHI * (kfup-kp));
 
 %Country premium
 e7 = -rp + RSTAR + PSSI * (exp(dp-DBAR) -1);
-
-%Investment
-e8 = -ivv +kp - (1-DELTA)*k;
 
 %Evolution of TFP
 e13 = -log(ap) + RHO * log(a);
@@ -41,7 +32,7 @@ e13 = -log(ap) + RHO * log(a);
 e14 = -kfu+kp;
 
 %Create function f
-f = eval(eval([e1;e2;e3;e4;e5;e6;e7;e8;e13;e14]));
+f = [e1;e4;e5;e6;e7;e13;e14];
 
 % Define the vector of controls in periods t and t+1, controlvar and controlvarp, and the vector of states in periods t and t+1, statevar and statevarp
 
@@ -54,13 +45,9 @@ x = [d r states_in_logs];
 
 xp = [dp rp states_in_logsp];
  
-controls_in_logs = [c ivv output h la kfu];
+y = [c h kfu];
 
-controls_in_logsp = [cp  ivvp outputp hp lap kfup];
-
-y = [controls_in_logs]; 
-
-yp = [controls_in_logsp]; 
+yp = [cp hp kfup];
 
 %Number of states
 nx = length(x);

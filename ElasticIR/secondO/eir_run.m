@@ -79,7 +79,7 @@ end
 v=STD_EPS_A^2;
 io = OMEGA^(-1);
 N = 101;
-NN = N^2;
+NN = N^3;
 %Computing Euler equation errors
 kgrid = linspace(0.5*k,1.5*k,N);
 agrid = linspace(0.5*a,1.5*a,N);
@@ -87,39 +87,41 @@ dgrid = linspace(0.5*d,1.5*d,N);
 ee1 = zeros(N,1);
 ee2 = zeros(N,1);
 ee3 = zeros(N,1);
+% 2nd order k coef
+kcoef = [hxx(3,:,1);hxx(3,:,2);hxx(3,:,3);hxx(3,:,4)];
+% 2nd order c coef 
+ccoef = [gxx(1,:,1);gxx(1,:,2);gxx(1,:,3);gxx(1,:,4)];
+% 2nd order h coef 
+hcoef = [gxx(2,:,1);gxx(2,:,2);gxx(2,:,3);gxx(2,:,4)];
 disp('start')
 for i = 1:N
     for j = 1:N
         for kk = 1:N
-            %states
+             %states
             K = kgrid(i);
             A = agrid(j);
             D = dgrid(kk);
-            st = kgrid(i)-k;
-            st2 = agrid(j)-a;
-            st3 = dgrid(kk)-d;
-            rn = r+PSSI*(exp(st3-d));
+            st = K-k;
+            st2 = A-a;
+            st3 = D-d;
+            rn = r+PSSI*(exp(st3)-1);
             st4 = rn -r;
             % state vec
             vec = [st3; st4;st;st2];
-            % 2nd order k coef
-            kcoef = [hxx(3,:,1);hxx(3,:,2);hxx(3,:,3);hxx(3,:,4)];
             % k prime 
             ktp = k+hx(3,:)*vec+0.5*(vec'*kcoef*vec+hss(3)*v);
-            % 2nd order c coef 
-            ccoef = [gxx(1,:,1);gxx(1,:,2);gxx(1,:,3);gxx(1,:,4)];
             % cons 
             ct = c+gx(1,:)*vec+0.5*(vec'*ccoef*vec+gss(1)*v);
+            %hours 
+            ht = h+gx(2,:)*vec+0.5*(vec'*hcoef*vec+gss(2)*v);
             % tomorrows states
             sp = ktp-k;
-            sp2 = A*RHO-a;
-            % calculating output to get tomorrow's debt 
-            hcoef = [gxx(4,:,1);gxx(4,:,2);gxx(4,:,3);gxx(4,:,4)];
-            ht = h+gx(4,:)*vec+0.5*(vec'*hcoef*vec+gss(4)*v);
-            yt = A*K^ALFA*ht*(1-ALFA);
+            sp2 = exp(log(A)*RHO)-a;
+            % calculating output to get tomorrow's debt
+            yt = A*K^ALFA*ht^(1-ALFA);
             ndebt = (1+rn)*D+ct+ktp-(1-DELTA)*K+PHI/2*(ktp-K)^2-yt;
             sp3 = ndebt - d;
-            rf = r+PSSI*(exp(sp3-d));
+            rf = r+PSSI*(exp(sp3)-1);
             sp4 = rf-r;
             vec = [sp3; sp4;sp;sp2];
             % k double prime
@@ -127,13 +129,13 @@ for i = 1:N
             % cons prime 
             ctp = c+gx(1,:)*vec+0.5*(vec'*ccoef*vec+gss(1)*v);
             % hours prime 
-            htp = h+gx(4,:)*vec+0.5*(vec'*hcoef*vec+gss(4)*v);
+            htp = h+gx(2,:)*vec+0.5*(vec'*hcoef*vec+gss(2)*v);
             % c MU at t 
-            muc = (ct-io*ht*OMEGA)^(-SIGG);
+            muc = (ct-io*ht^OMEGA)^(-SIGG);
             % c MU at t+1 
-            mucp =(ctp-io*htp*OMEGA)^(-SIGG);
+            mucp =(ctp-io*htp^OMEGA)^(-SIGG);
             % h MU divided by c MU (at t)
-            muh = -h*(OMEGA-1); 
+            muh = ht^(OMEGA-1); 
             % debt euler 
             tempe = -muc+BETTA*(1+rf)*mucp; 
             ee1(i) = ee1(i)+ tempe^2/NN; 
@@ -143,13 +145,14 @@ for i = 1:N
             % capital euler
             delk = ktp-K;
             delkp = kpp-ktp;
-            tempe = -muc*(1+delk)+BETTA*mucp*(A*RHO*(htp/ktp)*(1-ALFA)+1-DELTA + delkp);
-            ee3(i) = ee3(i)+ tempe^2/NN; 
+            tempe = -muc*(1+PHI*delk)+BETTA*mucp*(ALFA*A^RHO*(htp/ktp)^(1-ALFA)+1-DELTA + PHI*delkp);
+            ee3(i) = ee3(i)+ tempe^2/NN;  
         end 
     end 
     kgrid(i)
-
 end
+
+
 figure(1)
 plot(kgrid,log10(abs(ee1)),'LineWidth',2)
 figure(2)

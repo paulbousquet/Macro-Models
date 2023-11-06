@@ -29,7 +29,7 @@ output = KAPA^ALFA * h; %output
 
 c = output-DELTA*k-RSTAR*DBAR;
 
-ivv = DELTA * k; %investment
+%ivv = DELTA * k; %investment
 
 %tb = output - ivv - c; %trade balance
 
@@ -43,17 +43,17 @@ a = 1; %technological factor
 
 %tfp = a; %technological factor
 
-la = ((c - h^OMEGA/OMEGA))^(-SIGG); %marginal utility of wealth
+%la = ((c - h^OMEGA/OMEGA))^(-SIGG); %marginal utility of wealth
 
 cp = c;
 kp = k;
 rp = r;
-ivvp = ivv;
+%ivvp = ivv;
 %tbp = tb;
 %tfpp = tfp;
-lap = la;
+%lap = la;
 hp = h;
-outputp = output;
+%outputp = output;
 dp = d;
 %cap = ca;
 ap = a;
