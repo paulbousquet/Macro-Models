@@ -38,7 +38,7 @@ $$
 Schmitt-Grohé and Uribe made a contribution to the literature by integrating Matlab's symbolic toolbox with this standard economic paradigm, allowing for the formulation of Taylor-type approximations to policy functions and state evolution equations. Specifically, we denote $` h(x) `$ as the state evolution equation and $`g(x)`$ as the policy functions. To do a second order approximation of the evolution of the $` i`$th  state variable, we do the following 
 
 $$
-h(x_i) = x_i^\ast+h_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Th_{xx}^\ast(x_i)\widehat{x}+\sigma^2h^\ast_{\sigma\sigma}(x_i) \right]
+h(x_i) \approx x_i^\ast+h_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Th_{xx}^\ast(x_i)\widehat{x}+\sigma^2h^\ast_{\sigma\sigma}(x_i) \right]
 $$
 
 Notation: we have the usual $`x_i^* `$ denoting the steady state of $`x_i`$, $`\widehat{x}_i`$ denoting "linearization" by $`x_i-x_i^* `$, and $` \sigma^2 `$ denoting the variable of the stochastic component of the system. The non-standard notation is are the coefficient components. These correspond to the coefficients necessary to approximate the solution to the system of equations at the steady state. Specifically, let $`\textbf{x}^h=(x,h(x))`$: and $`\textbf{y}^g =(g(x),g(h(x)))`$. We can exploit the fact that the $`h`$ and $`g`$ must satisfy the following 
@@ -61,7 +61,7 @@ to compute their derivatives. Two tricks in particular help simplify things: if 
 
 Now we have the context to decompose these coefficient matrices. The notation itself tries to enunciate the mechanical components of this approximation. We will break this up into several pieces to lay the syntactic background and to simplify the discussion of second derivatives (which can get complicated trying to describe in words)
 
-* To be explicit, $`h`$ is a vector of state evolution equations where $`i`$th element corresponds to $`x' = h_i(x)`$, the evolution of the $`i`$th state variable , or
+* To be explicit, $`h`$ is a vector of state evolution equations where $`i`$th element corresponds to $`x' = h_i(x)`$, the evolution of the $`i`$th state variable, or
 
   
 
@@ -132,4 +132,11 @@ $$
 
 
 We have completely finished describing how to approximate the second order evolution equations. 
+
+The policy function approximations are 
+$$
+g_i(x) \approx x_i^\ast+g_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Tg_{xx}^\ast(x_i)\widehat{x}+\sigma^2g^\ast_{\sigma\sigma}(x_i) \right]
+$$
+where are $`g_x^*(x_i),g_x^*(x_i), g_{\sigma\sigma}^*(x_i)`$ aredefined the same way as before but now everything is length $`k`$ 
+
 [^1]: I leave $`x_i`$ as an argument since typically our variables have economic meaning which is more useful/intuitive than making row numbers more of a prominent object in interest. To further justify $`x_i`$ as an argument, we consider the following formulation where $`x_i`$ is used to select a row 
