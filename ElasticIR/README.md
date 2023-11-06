@@ -11,7 +11,8 @@ Changes made include (I'm sure the other models would run after similar changes)
 * The steady states weren't properly defined (the "prime" variables have been manually added)
 
 # Second Order
-Say you have $`x`$, a vector of $`n`$ state variables, and $`y`$, a vector of $`k`$ controls:$$
+Say you have $`x`$, a vector of $`n`$ state variables, and $`y`$, a vector of $`k`$ controls:
+$$
 \begin{aligned}
 x&=\begin{bmatrix}
 x_1 \\
