@@ -69,7 +69,7 @@ Now we have the context to decompose these coefficient matrices. The notation it
 
 $$
 \begin{aligned}
-h_x(x)&=\begin{bmatrix}
+h(x)&=\begin{bmatrix}
 h_1(x) \\
 \vdots\\
 h_n(x)
