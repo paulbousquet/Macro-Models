@@ -35,7 +35,7 @@ f_m(\textbf{x},\textbf{y})
 \end{aligned}
 $$
 
-Schmitt-Grohé and Uribe made a contribution to the literature by integrating Matlab's symbolic toolbox with this standard economic paradigm. A good reference for the following discussion is their short but well cited [paper](https://faculty.wcas.northwestern.edu/lchrist/papers/perturbation.pdf), in particular section 4 which goes through an example with 1 control and 2 states. Here, I present the general case and break down each step in their derivation. The basic roadmap is that we will formulate Taylor-type approximations to policy functions and state evolution equations and then measure the quality of these approximations looking at how big the errors in the Euler equations are. 
+Schmitt-Grohé and Uribe made a contribution to the literature by integrating Matlab's symbolic toolbox with this standard economic paradigm. They have a short but well cited [paper](https://faculty.wcas.northwestern.edu/lchrist/papers/perturbation.pdf) that is a good companion for the following discussion, in particular section 4 which goes through an example with 1 control and 2 states. Here, I present the general case and break down each step in their derivation. The basic roadmap is that we will formulate Taylor-type approximations to policy functions and state evolution equations and then measure the quality of these approximations looking at how big the errors in the Euler equations are. 
 
 We denote $` h(x) `$ as the state evolution equation and $`g(x)`$ as the policy functions. To do a second order approximation of the evolution of the $` i`$th  state variable, we do the following 
 
@@ -115,7 +115,7 @@ h_x^\ast(x_i)=[h_x^\ast]_{x_i}=\begin{bmatrix}
 \end{aligned}
 $$
 
-* For the second derivatives, we technically don't have a matrix but instead an array of second derivatives: a collection of $`n`$ matrices of size $`n \times n`$. The first matrix is the partial derivative of the $`h_x`$ matrix w.r.t $`x_1`$, the second matrix are partials w.r.t $`x_2`$ and so on, We are interested in the partial derivatives of $`\nabla h_i`$, and these will just correspond to the $`i`$th row in each matrix. Casting this in linear algebra format  (selecting these rows and then using a row combination)
+* For the second derivatives, we technically don't have a matrix but instead an array of second derivatives: a collection of $`n`$ matrices of size $`n \times n`$. The first matrix is the partial derivative of the $`h_x`$ matrix w.r.t $`x_1`$, the second matrix are partials w.r.t $`x_2`$ and so on. We are interested in the partial derivatives of $`\nabla h_i`$, and these will just correspond to the $`i`$th row in each matrix of the array. Casting this in linear algebra format  (selecting these rows and then using a row combination; the array we are selecting from is called hxx in Matlab's symbolic toolbox)
 
 $$
 \begin{aligned}
@@ -142,7 +142,7 @@ $$
 g_i(x) \approx x_i^\ast+g_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Tg_{xx}^\ast(x_i)\widehat{x}+\sigma^2g^\ast_{\sigma\sigma}(x_i) \right]
 $$
 
-where are $`g_x^*(x_i),\ g_x^*(x_i), \ g_{\sigma\sigma}^*(x_i)`$ are defined the same way as before but now everything is length $`k`$ 
+where are $`g_x^*(x_i),\ g_x^*(x_i), \ g_{\sigma\sigma}^*(x_i)`$ are defined the same way as before but now everything is length $`k`$ (still $`n`$ columns). 
 
 Recall our earlier structure: $`\textbf{x}^h=(x,h(x))`$:, $`\textbf{y}^g =(g(x),g(h(x)))`$, and 
 
@@ -192,4 +192,4 @@ $$
 
 
 
-[^1]: I leave $`x_i`$ as an argument since typically our variables have economic meaning which is more useful/intuitive than making row numbers more of a prominent object in interest. To further justify $`x_i`$ as an argument, we consider the following formulation where $`x_i`$ is used to select a row 
+[^1]: I leave `$x_i$` as an argument since typically our variables have economic meaning which is more useful/intuitive than making row numbers more of a prominent object in interest. To further justify $`x_i`$ as an argument, we consider the following formulation where $`x_i`$ is used to select a row 
