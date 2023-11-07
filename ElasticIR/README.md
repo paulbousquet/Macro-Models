@@ -63,7 +63,7 @@ to compute their derivatives. Two tricks in particular help simplify things: if 
 
 Now we have the context to decompose these coefficient matrices. The notation itself tries to enunciate the mechanical components of this approximation. We will break this up into several pieces to lay the syntactic background and to simplify the discussion of second derivatives (which can get complicated trying to describe in words)
 
-* To be explicit, $`h`$ is a vector of state evolution equations where $`i\text{-th}`$ element corresponds to $`x' = h_i(x)`$, the evolution of the $`i\text{-th}`$ state variable, or
+* To be explicit, $`h`$ is a vector of state evolution equations where $`i\text{-th}`$ element corresponds to $`x_i' = h_i(x)`$, the evolution of the $`i\text{-th}`$ state variable, or
 
   
 
