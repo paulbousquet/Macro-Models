@@ -37,7 +37,7 @@ $$
 
 Schmitt-Grohé and Uribe made a contribution to the literature by integrating Matlab's symbolic toolbox with this standard economic paradigm. They have a short but well cited [paper](https://faculty.wcas.northwestern.edu/lchrist/papers/perturbation.pdf) that is a good companion for the following discussion, in particular section 4 which goes through an example with 1 control and 2 states. Here, I present the general case and break down each step in their derivation. The basic roadmap is that we will formulate Taylor-type approximations to policy functions and state evolution equations and then measure the quality of these approximations looking at how big the errors in the Euler equations are. 
 
-We denote $` h(x) `$ as the state evolution equation and $`g(x)`$ as the policy functions. To do a second order approximation of the evolution of the $` i`$th  state variable, we do the following 
+We denote $` h(x) `$ as the state evolution equation and $`g(x)`$ as the policy functions. To do a second order approximation of the evolution of the $`i\text{th}`$  state variable, we do the following 
 
 $$
 h_i(x) \approx x_i^\ast+h_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Th_{xx}^\ast(x_i)\widehat{x}+\sigma^2h^\ast_{\sigma\sigma}(x_i) \right]
@@ -63,7 +63,7 @@ to compute their derivatives. Two tricks in particular help simplify things: if 
 
 Now we have the context to decompose these coefficient matrices. The notation itself tries to enunciate the mechanical components of this approximation. We will break this up into several pieces to lay the syntactic background and to simplify the discussion of second derivatives (which can get complicated trying to describe in words)
 
-* To be explicit, $`h`$ is a vector of state evolution equations where $`i`$th element corresponds to $`x' = h_i(x)`$, the evolution of the $`i`$th state variable, or
+* To be explicit, $`h`$ is a vector of state evolution equations where $`i\text{th}`$ element corresponds to $`x' = h_i(x)`$, the evolution of the $`i\text{th}`$ state variable, or
 
   
 
@@ -105,7 +105,7 @@ $$
 
   
 
-* From our original second order equation[^1], $`h_x^*(x_i)`$ is the $`i`$th row of  $`h_x`$ evaluated at the steady state (thus the star).  As seen above, this is all possible (first) partial derivatives of $`h_i`$.
+* From our original second order equation[^1], $`h_x^*(x_i)`$ is the $`i\text{th}`$ row of  $`h_x`$ evaluated at the steady state (thus the star).  As seen above, this is all possible (first) partial derivatives of $`h_i`$.
 
 $$
 \begin{aligned}
@@ -115,7 +115,7 @@ h_x^\ast(x_i)=[h_x^\ast]_{x_i}=\begin{bmatrix}
 \end{aligned}
 $$
 
-* For the second derivatives, we technically don't have a matrix but instead an array of second derivatives: a collection of $`n`$ matrices of size $`n \times n`$. The first matrix is the partial derivative of the $`h_x`$ matrix w.r.t $`x_1`$, the second matrix are partials w.r.t $`x_2`$ and so on. We are interested in the partial derivatives of $`\nabla h_i`$, and these will just correspond to the $`i`$th row in each matrix of the array. Casting this in linear algebra format  (selecting these rows and then using a row combination; the array we are selecting from is called hxx in Matlab's symbolic toolbox)
+* For the second derivatives, we technically don't have a matrix but instead an array of second derivatives: a collection of $`n`$ matrices of size $`n \times n`$. The first matrix is the partial derivative of the $`h_x`$ matrix w.r.t $`x_1`$, the second matrix are partials w.r.t $`x_2`$ and so on. We are interested in the partial derivatives of $`\nabla h_i`$, and these will just correspond to the $`i\text{th}`$ row in each matrix of the array. Casting this in linear algebra format  (selecting these rows and then using a row combination; the array we are selecting from is called hxx in Matlab's symbolic toolbox)
 
 $$
 \begin{aligned}
