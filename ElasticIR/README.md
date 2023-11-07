@@ -43,7 +43,7 @@ $$
 h_i(x) \approx x_i^\ast+h_x^*(x_i)\widehat{x}+\frac{1}{2}\left[ \widehat{x}^Th_{xx}^\ast(x_i)\widehat{x}+\sigma^2h^\ast_{\sigma\sigma}(x_i) \right]
 $$
 
-Notation: we have the usual $`x_i^* `$ denoting the steady state of $`x_i`$, $`\widehat{x}_i`$ denoting "linearization" by $`x_i-x_i^* `$, and $` \sigma^2 `$ denoting the variance of the stochastic component of the system. The non-standard notation is are the coefficient components. These correspond to the coefficients necessary to approximate the solution to the system of equations at the steady state. Specifically, let $`\textbf{x}^h=(x,h(x))`$: and $`\textbf{y}^g =(g(x),g(h(x)))`$. We can exploit the fact that the $`h`$ and $`g`$ must satisfy the following 
+Notation: we have the usual $`x_i^* `$ denoting the steady state of $`x_i`$, $`\widehat{x}_i`$ denoting "linearization" by $`x_i-x_i^* `$, and $` \sigma^2 `$ denoting the variance of the stochastic component of the system. The non-standard notation is are the coefficient components. These correspond to the coefficients necessary to approximate the solution to the system of equations at the steady state. Specifically, let $`\textbf{x}^h=(x,h(x))`$ and $`\textbf{y}^g =(g(x),g(h(x)))`$. We can exploit the fact that the $`h`$ and $`g`$ must satisfy the following 
 
 $$
 \begin{aligned}
