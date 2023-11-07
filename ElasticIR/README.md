@@ -127,7 +127,7 @@ h_{xx}^\ast(x_i)&=\begin{bmatrix}
 =\begin{bmatrix}
  \left(\frac{\partial}{\partial x_1}\nabla h_i^T\right)(x^\ast) \\
 \vdots \\
- \left(\frac{\partial}{\partial x_i}\nabla h_i^T\right)(x^\ast)
+ \left(\frac{\partial}{\partial x_n}\nabla h_i^T\right)(x^\ast)
 \end{bmatrix}
 \end{aligned}
 $$
