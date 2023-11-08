@@ -4,14 +4,14 @@ function [nx, ny,fx,fxp,fy,fyp,fypyp,fypy,fypxp,fypx,fyyp,fyy,fyxp,fyx,fxpyp,fxp
     fxpypyp,fxpypy,fxpypxp,fxpypx,fxpyyp,fxpyy,fxpyxp,fxpyx,fxpxpyp,fxpxpy,fxpxpxp,fxpxpx,fxpxyp,fxpxy,fxpxxp,fxpxx,...
     fxypyp,fxypy,fxypxp,fxypx,fxyyp,fxyy,fxyxp,fxyx,fxxpyp,fxxpy,fxxpxp,fxxpx,fxxyp,fxxy,fxxxp,fxxx,f] = eir_model
 
-syms RSTAR BETTA DBAR DELTA ALFA  PHI  RHO  STD_EPS_A ETASHOCK SIGG OMEGA PSSI
+syms RSTAR BETTA DBAR DELTAA ALFA  PHI  RHO  STD_EPS_A ETASHOCK SIGG OMEGA PSSI
 
 syms c cp h hp d dp k kp kfu kfup r rp a ap
 
 %Equilibrium conditions. The symbols e1, e2, ... denote equation 1, equation2, ...
 
 %Evolution of debt
-e1 = -dp + (1+r)*d + c + kp - (1-DELTA)*k + .5*PHI*(kp -k)^(2) - a*k^ALFA*h^(1-ALFA); 
+e1 = -dp + (1+r)*d + c + kp - (1-DELTAA)*k + .5*PHI*(kp -k)^(2) - a*k^ALFA*h^(1-ALFA); 
 
 %FOC w.r.t. h
 e4 = -h^(OMEGA-1)+ (1-ALFA) * a * (k/h)^ALFA;
@@ -20,7 +20,7 @@ e4 = -h^(OMEGA-1)+ (1-ALFA) * a * (k/h)^ALFA;
 e5 = -(c-h^OMEGA/OMEGA)^(-SIGG)  + BETTA * (1+rp) * (cp-hp^OMEGA/OMEGA)^(-SIGG) ;
 
 %FOC w.r.t. capital
-e6 = -(c-h^OMEGA/OMEGA)^(-SIGG)* (1+PHI*(kp-k)) + BETTA * (cp-hp^OMEGA/OMEGA)^(-SIGG) * (1-DELTA + ALFA * ap * (kp/hp)^(ALFA-1) + PHI * (kfup-kp));
+e6 = -(c-h^OMEGA/OMEGA)^(-SIGG)* (1+PHI*(kp-k)) + BETTA * (cp-hp^OMEGA/OMEGA)^(-SIGG) * (1-DELTAA + ALFA * ap * (kp/hp)^(ALFA-1) + PHI * (kfup-kp));
 
 %Country premium
 e7 = -rp + RSTAR + PSSI * (exp(dp-DBAR) -1);
