@@ -35,7 +35,7 @@ num_eval
 %First-order approximation
 [gx,hx] = gx_hx(nfy,nfx,nfyp,nfxp);
 
-approx = 2;
+approx = 3;
 
 %Second-order approximation
 if approx > 1
@@ -75,6 +75,9 @@ else
     gsss = zeros(ny,1);
     hsss = zeros(nx,1);
 end
+
+% plotting/displaying moments 
+sim_prune 
 
 v=STD_EPS_A^2;
 io = OMEGA^(-1);
