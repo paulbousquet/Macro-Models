@@ -120,8 +120,8 @@ for t=1:T
     [x, w] = GaussHermite(ord);
     w = w/sum(w);
     % technology nodes based on quadrature change of variables 
-    x = sqrt(2)*STD_EPS_A*x+X_sim(4,t)^RHO;
-    sp2 = x-a;
+    Ap = sqrt(2)*STD_EPS_A*x+X_sim(4,t)^RHO;
+    sp2 = Ap-a;
     vec = [sp3*ones(1,ord);sp4*ones(1,ord);sp3*ones(1,ord);sp2'];
     % getting zero+first order coeficient to streamline indexing
     hxk = k+vec.'*hx(3,:).';
@@ -141,16 +141,14 @@ for t=1:T
     muh = ht^(OMEGA-1);
     % debt euler
     tempe = -muc+BETTA*(1+rf).*mucp;
-    tempe = tempe.^2;
     ee1(t) = sum(tempe.*w)^2;
     % intra euler
     tempe = -muh+(1-ALFA)*yt/ht;
     ee2(t) = tempe^2;
     % capital euler
     delkp = kpp-ktp;
-    tempe = -muc*(1+PHI*delk)+BETTA.*mucp.*(ALFA*x.*(htp./ktp).^(1-ALFA)+1-DELTAA + PHI*delkp);
-    tempe = tempe.^2;
-    ee3(t) = sum(tempe.*w);
+    tempe = -muc*(1+PHI*delk)+BETTA.*mucp.*(ALFA*Ap.*(htp./ktp).^(1-ALFA)+1-DELTAA + PHI*delkp);
+    ee3(t) = sum(tempe.*w)^2;
 end 
 
 figure(2)
