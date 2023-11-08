@@ -181,6 +181,7 @@ ee(\textbf{x},\textbf{y})=\begin{bmatrix}
 $$
 
 Therefore the errors for our approximation are $` ee(\textbf{x}^{\tilde{h}},\textbf{y}^{\tilde{g}})`$, where $`\tilde{h},\tilde{g}`$ are our second order approximations. To compute the errors. one thing we could do is take the average squared error over grids of capital, technology, and hours. Say that we have $`N `$ points in each grid. Then we can calculate the average EE error using the following 
+
 $$
 \begin{gather*}
 \frac{1}{N^3}\sum_{i=1}^N \sum_{j=1}^N \sum_{l=1}^N ee(\textbf{x}\_{ijl}^{\tilde{h}},\textbf{y}\_{ijl}^{\tilde{g}})^2 \\
