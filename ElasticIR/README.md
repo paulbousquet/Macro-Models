@@ -190,7 +190,7 @@ Putting this all together, to compute the (squared) EE errors at a given $`t`$, 
 
 $$
 \begin{gather*}
-ee(\textbf{x}\_{t,}\textbf{y}\_{t})= \left[\sum_{i=1}^n \omega_i\cdot ee(\textbf{x}\_{t}^{\tilde{h}\_{+A_i}},\textbf{y}\_{t}^{\tilde{g}\_{+A_i}})\right]^2 \\
+ee(\textbf{x}\_{t,}\textbf{y}\_{t})= \left[\sum_{i=1}^n \omega_i\cdot ee(\textbf{x}\_{t}^{\tilde{h}^{A_i}},\textbf{y}\_{t}^{\tilde{g}\_{+A_i}})\right]^2 \\
 \text{where } \tilde{h}\_{+A_i} = \begin{bmatrix}
  h_1(x)\\
     h_2(x) \\
