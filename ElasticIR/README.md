@@ -190,13 +190,13 @@ Putting this all together, to compute the (squared) EE errors at a given $`t`$, 
 
 $$
 \begin{gather*}
-ee(\textbf{x}\_{t,}\textbf{y}\_{t})= \left[\sum_{i=1}^n \omega_i\cdot ee(\textbf{x}\_{t}^{\tilde{h}^{A_i}},\textbf{y}\_{t}^{\tilde{g}\_{+A_i}})\right]^2 \\
-\text{where } \tilde{h}\_{+A_i} = \begin{bmatrix}
- h_1(x)\\
-    h_2(x) \\
-    h_3(x) \\
+ee(\textbf{x}\_{t,}\textbf{y}\_{t})= \left[\sum_{i=1}^n \omega_i\cdot ee(\textbf{x}\_{t}^{\tilde{h}^{A_i}},\textbf{y}\_{t}^{\tilde{g}^{A_i}})\right]^2 \\
+\text{where } \tilde{h}^{A_i} = \begin{bmatrix}
+ \tilde{h}_1(x)\\
+    \tilde{h}_2(x) \\
+    \tilde{h}_3(x) \\
  \tilde{A}\_i
-\end{bmatrix} \text{ and } \tilde{g}\_{+A_i}= \tilde{g}(\tilde{h}\_{+A_i}(x))
+\end{bmatrix} \text{ and } \tilde{g}^{A_i}= \tilde{g}(\tilde{h}^{A_i}(x))
 \end{gather*}
 $$
 
