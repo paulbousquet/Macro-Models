@@ -156,7 +156,7 @@ f_m(\textbf{x}^h,\textbf{y}^g)
 \end{aligned}
 $$
 
-Let's say the first $`M`$ equations of $`f`$ correspond to Euler equations. To find the EE erros, we simply plug in our approximation to the first $`M`$ equations. However, this becomes complicated in practice by the fact that we may have multiple state variables. For each state variable, chances are it needs its own grid, unless it's entirely pinned down by other state variables. We have been general up until now, but we can introduce the elastic interest rate example. We can use $`r_{t-1}=r^\ast+\psi[\exp(d_{t-1}-d^\ast)-1]`$ to not have to construct an interest rate grid. Our EE are 
+Let's say the first $`M`$ equations of $`f`$ correspond to Euler equations. To find the EE erros, we simply plug in our approximation to the first $`M`$ equations. We will now use the elastic interest rate example to explicitly illustrate. The EE are 
 
 $$
 \begin{aligned}
@@ -180,18 +180,27 @@ ee(\textbf{x},\textbf{y})=\begin{bmatrix}
 \end{aligned}
 $$
 
-Therefore the errors for our approximation are $` ee(\textbf{x}^{\tilde{h}},\textbf{y}^{\tilde{g}})`$, where $`\tilde{h},\tilde{g}`$ are our second order approximations. To compute the errors. one thing we could do is take the average squared error over grids of capital, technology, and hours. Say that we have $`N `$ points in each grid. Then we can calculate the average EE error using the following 
+Therefore the errors for our approximation are $` ee(\textbf{x}^{\tilde{h}},\textbf{y}^{\tilde{g}})`$, where $`\tilde{h},\tilde{g}`$ are our second order approximations.
+
+However, in this example, we have an expectation term. This means we can't simply use a grid to compute the EE errors because we need to take an expectation, which corresponds to the integration of a function. To handle this, we first do a simulation to find the distribution of the economy. This simulation will deliver a large matrix of simulated $`x`$ and $`y`$ points. If we column combine the matrices of  $`x`$ and $`y`$ values, we can think of each row as the economy at a certain point in time $`t`$. For each point in time, we can compute an expectation conditional on today's realization of the stochastic state variable, which also will deliver the EE error for a given  $`t`$ using the equations above. 
+
+To actually calculate these expectations, we use Gauss-Hermite quadrature since the stochastic variable of interest is log-normally distributed. The conditional expectation of $`Z_{t+1}=\ln(A_{t+1})`$ is $`\rho Z_t`$ and the conditional variance is $`\sigma^2`$. For a given order $`n`$, we get $`n`$ nodes $`z_i`$,  use the change of variables formula $`\sigma z_i\sqrt{2}+\rho Z_t`$, and then take the exponential since we have a log-normal. This gives us a quasi-grid of technology nodes to integrate over, with the integration weights $`\omega_i`$ also being determined by the order $`n`$ Gauss-Hermite procedure.   
+
+Putting this all together, to compute the (squared) EE errors at a given $`t`$, with a vector ordering $`x=(d,r,k,A`)$ and technology nodes $`\tilde{A}\_i`$ we can do the following, 
 
 $$
 \begin{gather*}
-\frac{1}{N^3}\sum_{i=1}^N \sum_{j=1}^N \sum_{l=1}^N ee(\textbf{x}\_{ijl}^{\tilde{h}},\textbf{y}\_{ijl}^{\tilde{g}})^2 \\
-\text{where } \textbf{x}\_{ijl}^{\tilde{h}}=(x_{ijl},\tilde{h}(x_{ijl}))=(\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{h}[\textbf{(}k_i,A_j,d_l\textbf{)}]) \\
-\text{and } \textbf{y}\_{ijl}^{\tilde{g}} =(\tilde{g}(x_{ijl}),\tilde{g}[\tilde{h}(x_{ijl})])=(\tilde{g}\textbf{(}k_i,A_j,d_l\textbf{)},\tilde{g}[\tilde{h}(\textbf{(}k_i,A_j,d_l\textbf{)})])
+ee(\textbf{x}\_{t,}\textbf{y}\_{t})= \left[\sum_{i=1}^n \omega_i\cdot ee(\textbf{x}\_{t}^{\tilde{h}\_{+A_i}},\textbf{y}\_{t}^{\tilde{g}\_{+A_i}})\right]^2 \\
+\text{where } \tilde{h}\_{+A_i} = \begin{bmatrix}
+ h_1(x)\\
+    h_2(x) \\
+    h_3(x) \\
+ \tilde{A}\_i
+\end{bmatrix} \text{ and } \tilde{g}\_{+A_i}= \tilde{g}(\tilde{h}\_{+A_i}(x))
 \end{gather*}
 $$
 
-If we wanted to calculate the average error for a given level of capital, we simply exclude the outer summation term and instead normalize by $` \frac{1}{N^2}`$
-
+We can then draw a histogram of EE errors. For the EE which contain stochastic terms, it seems like the errors are non-negligible, with about half above .01. We can normalize by the magnitude of the EE (I use average of LHS and RHS) to get a better sense of how serious they are. We now see an average (squared) error a bit above 1%, which still isn't great. This result is robust to the order of the quadrature. $`n=3`$ does just as well as $`n=30`$, which does makes some sense because a third order quadrature implies an approximate fifth order polynomial, which is a level of non-linearity not to be sneezed at. The non-stochastic EE suggests that at least in most of the code, there aren't any mistakes, but determining tomorrow's states and controls, which depends on the stochastic element could have typos. 
 
 
 [^1]: I leave `$x_i$` as an argument since typically our variables have economic meaning which is more useful/intuitive than making row numbers more of a prominent object in interest. To further justify $`x_i`$ as an argument, we consider the following formulation where $`x_i`$ is used to select a row 
