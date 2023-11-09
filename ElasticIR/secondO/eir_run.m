@@ -83,7 +83,7 @@ sim_prune
 io = OMEGA^(-1);
 %Computing Euler equation errors 
 % using quarature of order "ord" to compute expectation 
-ord=30;
+ord=3;
 ee1 = zeros(T,1);
 ee2 = zeros(T,1);
 ee3 = zeros(T,1);
@@ -119,8 +119,8 @@ for t=1:T
     % setting up quadrature 
     [x, w] = GaussHermite(ord);
     w = w/sum(w);
-    % technology nodes based on quadrature change of variables 
-    Ap = sqrt(2)*STD_EPS_A*x+X_sim(4,t)^RHO;
+    % technology nodes based on quadrature change of variables
+    Ap = exp(sqrt(2*v)*x+RHO*log(A));
     sp2 = Ap-a;
     vec = [sp3*ones(1,ord);sp4*ones(1,ord);sp3*ones(1,ord);sp2'];
     % getting zero+first order coeficient to streamline indexing
@@ -141,14 +141,21 @@ for t=1:T
     muh = ht^(OMEGA-1);
     % debt euler
     tempe = -muc+BETTA*(1+rf).*mucp;
-    ee1(t) = sum(tempe.*w)^2;
+    %raw squared error 
+    %ee1(t) = sum(tempe.*w)^2
+    % error normalized by magnitude (av of LHS and RHS)  
+    ee1(t) = sum(tempe.*w)^2/(sum(tempe/2+muc)/ord);
     % intra euler
     tempe = -muh+(1-ALFA)*yt/ht;
+    % errors here are very low, no normalization needed 
     ee2(t) = tempe^2;
     % capital euler
     delkp = kpp-ktp;
     tempe = -muc*(1+PHI*delk)+BETTA.*mucp.*(ALFA*Ap.*(htp./ktp).^(1-ALFA)+1-DELTAA + PHI*delkp);
-    ee3(t) = sum(tempe.*w)^2;
+    %raw squared error 
+    %ee3(t) = sum(tempe.*w)^2;
+    % error normalized by magnitude (av of LHS and RHS)  
+    ee3(t) = sum(tempe.*w)^2/(sum(tempe/2+muc*(1+PHI*delk))/ord);
 end 
 
 figure(2)
@@ -157,3 +164,4 @@ figure(3)
 histogram(ee2)
 figure(4)
 histogram(ee3)
+
