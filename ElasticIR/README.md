@@ -186,7 +186,7 @@ However, in this example, we have an expectation term. This means we can't simpl
 
 To actually calculate these expectations, we use Gauss-Hermite quadrature since the stochastic variable of interest is log-normally distributed. The conditional expectation of $`Z_{t+1}=\ln(A_{t+1})`$ is $`\rho Z_t`$ and the conditional variance is $`\sigma^2`$. For a given order $`n`$, we get $`n`$ nodes $`z_i`$,  use the change of variables formula $`\sigma z_i\sqrt{2}+\rho Z_t`$, and then take the exponential since we have a log-normal. This gives us a quasi-grid of technology nodes to integrate over, with the integration weights $`\omega_i`$ also being determined by the order $`n`$ Gauss-Hermite procedure.   
 
-Putting this all together, to compute the (squared) EE errors at a given $`t`$, with a vector ordering $`x=(d,r,k,A`)$ and technology nodes $`\tilde{A}\_i`$ we can do the following, 
+Putting this all together, to compute the (squared) EE errors at a given $`t`$, with technology nodes $`\tilde{A}\_i`$ and a vector ordering $`x=(d,r,k,A)`$, we can do the following, 
 
 $$
 \begin{gather*}
