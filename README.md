@@ -6,4 +6,4 @@
 * Wage Price Spiral from [Lorenzoni and Werning (2023)](https://www.brookings.edu/wp-content/uploads/2023/09/5_Lorenzoni-Werning_unembargoed.pdf)
   * Replicate Figure 2 and extended model to multisector, closed economy case. Multisector, open economy available upon request   
 * Miscellaneous
-  * A collection of model codes I didn't write myself 
+  * A collection of model codes I didn't write myself or modify at all
