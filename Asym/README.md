@@ -17,7 +17,7 @@ technology term by $\tilde{A}_t$.
 | Consumption Euler Equation | $1 = \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{R_t}{\Pi_{t+1} \tilde{A}_{t+1}}$ | (1) |
 | Definition for Real Wages | $\Delta_t^w = \frac{W_t}{W_{t-1}} \cdot \tilde{A}_t$ | (2) |
 | Resource Constraint | $\frac{G_t - 1}{G_t} \cdot Y_t + C_t = Y_t (1 - \Phi_t^p) + W_t Y_t \cdot \Phi_t^w$ | (3) |
-| Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot W_t^{-\tau} C_t^{\tau} Y_t^{\frac{1}{\nu}} + (1 - \Phi_t^w)$ $\left(1 - \frac{1}{\lambda_w}\right) = \ \Delta_t^{w_{nom}} \cdot \Phi_t^{'w} - \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{R_t}{\Pi_{t+1} + \tilde{A}\_{t+1}} W_{t+1}^2 Y_{t+1} \cdot \Phi_{t+1}^{'w}$ | (4) |
+| Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot W_t^{-\tau} C_t^{\tau} Y_t^{\frac{1}{\nu}} + (1 - \Phi_t^w)\left(1 - \lambda_w^{-1}}\right)$ $ = \ \Delta_t^{w_{nom}} \cdot \Phi_t^{'w} - \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{R_t}{\Pi_{t+1} + \tilde{A}\_{t+1}} W_{t+1}^2 Y_{t+1} \cdot \Phi_{t+1}^{'w}$ | (4) |
 | Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p) - \Pi_t \cdot \Phi_t^{'p} - \frac{\mu_t}{\Lambda_t} = \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{\Pi_{t+1}}{ \tilde{A}\_{t+1} } \cdot \Phi_{t+1}^{'p} \cdot Y_{t+1} \tilde{A}_{t+1}$ | (5) |
 | Hours Equation | $W_t = (1 - \Phi_t^p) + \mu_t$ | (6) |
 | Adjustment Costs, Nominal Wages | $\Phi_t^w = \frac{\phi_w}{\psi_w^2} \left( e^{-\psi_w (W_{t}^{w_{nom}} - \gamma \cdot \pi^\star)} + \psi_w (W_{t}^{w_{nom}} - \gamma \pi^\star) - 1 \right)$ | (7) |
@@ -39,7 +39,7 @@ It's also important to note that their original code has everything in log-linea
 | Consumption Euler Equation | 1 = $\beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{R_t}}{e^{\pi_{t+1}+a_{t+1}}}$ | (1) |
 | Definition for Real Wages | $e^{\Delta_t^w} = \frac{e^{w_t}}{e^{w_{t-1}}} \cdot e^{a_t}$ | (2) |
 | Resource Constraint | $e^{c_t} + \frac{e^{g_t} - 1}{e^{g_t}} \cdot e^{y_t} = e^{y_t} (1 - \Phi_t^p) + e^{w_t+y_t} \cdot \Phi_t^w$ | (3) |
-| Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot e^{-\tau w_t + \tau c_t + \frac{1}{\nu} y_t} + (1 - \Phi_t^w)$ $\left(1 - \lambda_w^{-1}\right) = \ e^{\Delta_t^{w_{nom}}} \cdot \Phi_t^{'w} - \beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{R_t}}{e^{\pi_{t+1}+a_{t+1}}}e^{ 2 \Delta_{t+1}^w + \Delta_{t+1}^y} \cdot \Phi_{t+1}^{'w}$ | (4)  |
+| Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot e^{-\tau w_t + \tau c_t + \frac{1}{\nu} y_t} + (1 - \Phi_t^w)\left(1 - \lambda_w^{-1}\right)$ $ = \ e^{\Delta_t^{w_{nom}}} \cdot \Phi_t^{'w} - \beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{R_t}}{e^{\pi_{t+1}+a_{t+1}}}e^{ 2 \Delta_{t+1}^w + \Delta_{t+1}^y} \cdot \Phi_{t+1}^{'w}$ | (4)  |
 | Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p) - e^{\pi_t} \cdot \Phi_t^{'p} - \frac{\mu_t}{e^{\lambda_t}} =$ | (5) |
 |  | $\ \beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{\pi_{t+1}}}{e^{a_{t+1}}}  \cdot \Phi_{t+1}^{'p} \cdot e^{\Delta_{t+1}^y+a_{t+1}}$ |  |
 | Hours Equation | $e^{w_t} = (1 - \Phi_t^p) + \mu_t$ | (6) |
