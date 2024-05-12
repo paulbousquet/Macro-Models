@@ -54,7 +54,7 @@ It's also important to note that their original code has everything in log-linea
 | Hours Equation | $e^{w_t} = (1 - \Phi_t^p) + \mu_t$ | (6) |
 | Adjustment Costs, Nominal Wages | $\Phi_t^w = \frac{\phi_w}{\psi_w^2} \left(e^{-\psi_w (e^{\Delta_t^{w_{nom}}} - \gamma \pi^\star)} + \psi_w (e^{\Delta_t^{w_{nom}}}  - \gamma \pi^\star) - 1\right)$ | (7) |
 | Adjustment Costs, Prices | $\Phi_t^p = \frac{\phi_p}{\psi_p^2} \left(e^{-\psi_p (e^{\pi_t} - \pi^\star)} + \psi_p (e^{\pi_t} - \pi^\star) - 1\right)$ | (8) |
-| Derivative, Adjustment Costs Nominal Wages | $\Phi_t^{'w} = \frac{\phi_w}{\psi_w} \left(1 - e^{\Delta_t^{w_{nom}}} - \gamma \pi^\star)}}\right)$ | (9) |
+| Derivative, Adjustment Costs Nominal Wages | $\Phi_t^{'w} = \frac{\phi_w}{\psi_w} \left(1 - e^{-\psi_w (e^{\Delta_t^{w_{nom}}} - \gamma \pi^\star)}\right)$ | (9) |
 | Derivative, Adjustment Costs to Prices | $\Phi_t^{'p} = \frac{\phi_p}{\psi_p} \left(1 - e^{-\psi_p \left(e^{\pi_t} - \pi^\star\right)}\right)$ | (10) |
 | Taylor Rule | $r_t = \rho_r r_{t-1} + (1 - \rho_r)r_t^\star + \sigma_r \varepsilon_r$ | (11) |
 | TFP Growth | $a_t = (1 - \rho_a)  \log{\gamma} + \rho_a  a_{t-1} + \sigma_a  \varepsilon_a$ | (12) |
