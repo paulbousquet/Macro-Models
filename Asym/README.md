@@ -1,7 +1,7 @@
 The following discussion relates to Sections 5 and 6 of ["Assessing DSGE Nonlinearities"](http://www.sciencedirect.com/science/article/pii/S0165188917301562) by Aruoba, Bocola, and Schorfheide (2017), hereafter ABS. This is a description of the changes made to the public replication files themselves, a general discussion of the model that is implied by their code, and finally an extension based on casting in Dynare.
 
 ## Code Modifications 
-* The program calls a function model_ss that does not exist. The "nonlinear steady state" file is ordered differently than everything else. This means the easiest thing to do is modify the linear steady state file, since it retains the same ordering. The only change is to $\Phi_p$ and $\Phi_w$, which are the last two entry of the Theta vector (changed)
+* The program calls a function model_ss that does not exist. The "nonlinear steady state" file is ordered differently than everything else. This means the easiest thing to do is modify the linear steady state file, since it retains the same ordering. The only change is to $\phi_p$ and $\phi_w$, which are the last two entries of the Theta vector (changed)
 * To run the metropolis hastings routine, you need to comment out the line that adds the predictive check folder, which has its own "prior.m" file (changed)
 * There are several minor inconsistencies between the listed priors in the table in the paper (unchanged)
 * There is no burn in period for draws (changed)  
