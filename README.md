@@ -1,5 +1,5 @@
 # Macro Models: Extensions and Replications
-* Asymmetric Price and Wage Rigities in NK from [Aruob, Bocola, and Schorfheide (2017)](http://www.sciencedirect.com/science/article/pii/S0165188917301562)
+* Asymmetric Price and Wage Rigities in NK from [Aruoba, Bocola, and Schorfheide (2017)](http://www.sciencedirect.com/science/article/pii/S0165188917301562)
   * Fixed some minor issues in the code and wrote out the model equations implied by their programs  
 * [Elastic Interest Rate](https://www1.columbia.edu/~mu2166/closing.htm) from [Schmitt-Grohé and Uribe (2003)](https://www1.columbia.edu/~mu2166/closing_jie.pdf)
   * Updated codes to current Matlab syntax and added second-order approximation
