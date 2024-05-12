@@ -30,10 +30,10 @@ technology term by $\tilde{A}_t$.
 | Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot W_t^{-\tau} C_t^{\tau} Y_t^{\frac{1}{\nu}} + (1 - \Phi_t^w)\left(1 - \lambda_w^{-1}\right) =$ $\Delta_t^{w_{nom}} \cdot \Phi_t^{'w} - \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{R_t}{\Pi_{t+1} + \tilde{A}\_{t+1}} W_{t+1}^2 Y_{t+1} \cdot \Phi_{t+1}^{'w}$ | (4) |
 | Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p) - \Pi_t \cdot \Phi_t^{'p} - \frac{\mu_t}{\Lambda_t} = \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{\Pi_{t+1}}{ \tilde{A}\_{t+1} } \cdot \Phi_{t+1}^{'p} \cdot Y_{t+1} \tilde{A}_{t+1}$ | (5) |
 | Hours Equation | $W_t = (1 - \Phi_t^p) + \mu_t$ | (6) |
-| Adjustment Costs, Nominal Wages | $\Phi_t^w = \frac{\phi_w}{\psi_w^2} \left( e^{-\psi_w (W_{t}^{w_{nom}} - \gamma \cdot \pi^\star)} + \psi_w (W_{t}^{w_{nom}} - \gamma \pi^\star) - 1 \right)$ | (7) |
-| Adjustment Costs, Prices | $\Phi_t^p = \frac{\phi_p}{\psi_p^2} \left(e^{-\psi_p (e^{\pi_t} - \pi^\star)} + \psi_p (e^{\pi_t} - \pi^\star) - 1\right)$ | (8) |
-| Derivative, Adjustment Costs Nominal Wages | $\Phi_t^p = \frac{\phi_p}{\psi_p^2} \left( e^{-\psi_p (\Pi_t - \pi^\star)} + \psi_p (\Pi_t - \pi^\star) - 1 \right)$ | (9) |
-| Derivative, Adjustment Costs to Prices | $\Phi_t^{'p} = \frac{\phi_p}{\psi_p} \left(1 - e^{-\psi_p \left(\Pi_t - \pi^\star\right)}\right)$ | (10) |
+| Adjustment Costs, Nominal Wages | $\Phi_t^w = \frac{\phi_w}{\psi_w^2} \left( e^{-\psi_w (\Delta_{t}^{w_{nom}} - \gamma \Pi^\star)} + \psi_w (\Delta_{t}^{w_{nom}} - \gamma \Pi^\star) - 1 \right)$ | (7) |
+| Adjustment Costs, Prices | $\Phi_t^p = \frac{\phi_p}{\psi_p^2} \left(e^{-\psi_p (\Pi_t - \Pi^\star)} + \psi_p (\Pi_t - \Pi^\star) - 1\right)$ | (8) |
+| Derivative, Adjustment Costs Nominal Wages | $\Phi_t^p = \frac{\phi_p}{\psi_p^2} \left( 1-e^{-\psi_p (\Delta_t^{w_{nom}} - \gamma \Pi^\star)}  \right)$ | (9) |
+| Derivative, Adjustment Costs to Prices | $\Phi_t^{'p} = \frac{\phi_p}{\psi_p} \left(1 - e^{-\psi_p \left(\Pi_t - \Pi^\star\right)}\right)$ | (10) |
 | Taylor Rule | $R_t = \exp(r_t);\quad r_t = \rho_r r_{t-1} + (1 - \rho_r)r_t^\star + \sigma_r \varepsilon_r$ | (11) |
 | TFP Growth | $\tilde{A}\_t = \exp(a_t); \quad a_t = (1 - \rho_a)  \log{\gamma} + \rho_a  a_{t-1} + \sigma_a  \varepsilon_a$ | (12) |
 | Government Spending Shocks | $G_t = \exp(G_t); \quad g_t = (1 - \rho_g)  \log{g^\star} + \rho_g  g_{t-1} + \sigma_a  \varepsilon_g$ | (13) |
@@ -52,9 +52,9 @@ It's also important to note that their original code has everything in log-linea
 | Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot e^{-\tau w_t + \tau c_t + \frac{1}{\nu} y_t} + (1 - \Phi_t^w)\left(1 - \lambda_w^{-1}\right)=$ $e^{\Delta_t^{w_{nom}}} \cdot \Phi_t^{'w} - \beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{R_t}}{e^{\pi_{t+1}+a_{t+1}}}e^{ 2 \Delta_{t+1}^w + \Delta_{t+1}^y} \cdot \Phi_{t+1}^{'w}$ | (4)  |
 | Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p) - e^{\pi_t} \cdot \Phi_t^{'p} - \frac{\mu_t}{e^{\lambda_t}} = \beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{\pi_{t+1}}}{e^{a_{t+1}}}  \cdot \Phi_{t+1}^{'p} \cdot e^{\Delta_{t+1}^y+a_{t+1}}$ | (5)  |
 | Hours Equation | $e^{w_t} = (1 - \Phi_t^p) + \mu_t$ | (6) |
-| Adjustment Costs, Nominal Wages | $\Phi_t^w = \frac{\phi_w}{\psi_w^2} \left(e^{-\psi_w (e^{\Delta_t^{w_{nom}}} - \gamma \cdot \pi^\star)} + \psi_w (e^{\Delta_t^{w_{nom}}}  - \gamma \pi^\star) - 1\right)$ | (7) |
+| Adjustment Costs, Nominal Wages | $\Phi_t^w = \frac{\phi_w}{\psi_w^2} \left(e^{-\psi_w (e^{\Delta_t^{w_{nom}}} - \gamma \pi^\star)} + \psi_w (e^{\Delta_t^{w_{nom}}}  - \gamma \pi^\star) - 1\right)$ | (7) |
 | Adjustment Costs, Prices | $\Phi_t^p = \frac{\phi_p}{\psi_p^2} \left(e^{-\psi_p (e^{\pi_t} - \pi^\star)} + \psi_p (e^{\pi_t} - \pi^\star) - 1\right)$ | (8) |
-| Derivative, Adjustment Costs Nominal Wages | $\Phi_t^{'w} = \frac{\phi_w}{\psi_w} \left(1 - e^{-\psi_w \left(e^{\Delta_t^w} \cdot e^{\pi_t} - \gamma \cdot \pi^\star\right)}\right)$ | (9) |
+| Derivative, Adjustment Costs Nominal Wages | $\Phi_t^{'w} = \frac{\phi_w}{\psi_w} \left(1 - e^{-\psi_w \left(e^{\Delta_t^w} \cdot e^{\pi_t} - \gamma \pi^\star\right)}\right)$ | (9) |
 | Derivative, Adjustment Costs to Prices | $\Phi_t^{'p} = \frac{\phi_p}{\psi_p} \left(1 - e^{-\psi_p \left(e^{\pi_t} - \pi^\star\right)}\right)$ | (10) |
 | Taylor Rule | $R_t = \rho_r R_{t-1} + (1 - \rho_r)R_t^\star + \sigma_r \varepsilon_r$ | (11) |
 | TFP Growth | $a_t = (1 - \rho_a)  \log{\gamma} + \rho_a  a_{t-1} + \sigma_a  \varepsilon_a$ | (12) |
@@ -64,7 +64,7 @@ It's also important to note that their original code has everything in log-linea
 | Nominal wage change | $\Delta_t^{w_{nom}} = \Delta_t^w + \pi_t$ | (16) |
 | Interest rate target | $R_t^\star = \log{\left(\frac{\gamma}{\beta} \cdot \pi^\star\right)} + \psi_1 \left(\pi_t - \log{\pi^\star}\right) + \psi_2 \left(\Delta_t^y + a_t - \log{\gamma}\right)$ | (17) |
 
-The only real abuse of notation across the two tables comes from the change variables, which are notated the exact same.
+The only real abuse of notation across the two tables comes from the change variables, which are notated the exact same with the excpetion of price inflation. 
 
 ## Extension (Dynare) 
 
