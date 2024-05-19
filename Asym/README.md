@@ -3,9 +3,10 @@ The following discussion relates to Sections 5 and 6 of ["Assessing DSGE Nonline
 ## Code Modifications 
 * The program calls a function model_ss that does not exist. The "nonlinear steady state" file is ordered differently than everything else. This means the easiest thing to do is modify the linear steady state file, since it retains the same ordering. The only change is to $\phi_p$ and $\phi_w$, which are the last two entries of the Theta vector (changed)
 * To run the metropolis hastings routine, you need to comment out the line that adds the predictive check folder, which has its own "prior.m" file (changed)
+* There is no "prior.m" analog for the nonlinear model, which has two additional parameters. This is not accounted for on the back end when computing liklihood in MH (changed)
 * There are several minor inconsistencies with respect to the listed priors in the table in the paper (unchanged)
 * There is no burn in period for draws (changed)
-* I have also provided an alternative version of their codes based on some possible issues I found while trying out different calibrations, motivated and detailed below. Essentially, it appears their solution method neutered the nonlinearity of interest to the point that it's not meaningfully present.   
+* I have also provided an alternative version of their codes based on some possible issues I found while trying out different calibrations, motivated and detailed below. Essentially, it appears their solution method neutered the nonlinearity of interest to the point that it's not meaningfully present, at least not in the impulse response functions.   
 
 ## Model Equations
 
@@ -71,3 +72,7 @@ One peculiar thing I noticed from this exercise is the steady states for the adj
 IRFs using the equations as written from ABS do produce some non-linearity -- the impulse responses to a 2 standard deviation shock are not simply the paths from the 1 standard deviation response multiplier by 2 -- but otherwise, not much non-linear action occurrs. When entering the model in levels, you get much more of the spirit of the rigity structure: when you reduce the price asymmetry parameter (and keep it fixed for wages), prices adjust comparatively more following a monetary policy shock that puts downward pressure on prices and wages. However, at a first order approximation, the impulse responses to a positive and negative monetary policy shock, which put opposing directional pressure on prices, are still somehow mirror images. It's only at a second order approximation of the IRFs that the asymmetry can be properly observed. 
 
 It's quite possible these oddities are self-inflicted errors in my coding. But after writing each version multiple times from scratch and getting the same results, I'm doubtful, but subconsious tunnel vision could be lurking somewhere. 
+
+### Bayesian Estimation 
+
+The data 1984-2007 data is matched well. However, most of the implied realizations of the noise processes are autocorrelated, and some are not mean 0 (particularly for the monetary policy shocks). This suggests non-trivial model misspecification. 
