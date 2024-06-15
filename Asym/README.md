@@ -24,9 +24,9 @@ equations. Many of the macro fundamentals are "detrended" (normalized by technol
 | Consumption Euler Equation | $1 = \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{R_t}{\Pi_{t+1} \tilde{A}_{t+1}}$ | (1) |
 | Real Wage ($W_t$) Inflation  | $\Delta_t^w = \frac{W_t}{W_{t-1}} \cdot \tilde{A}_t$ | (2) |
 | Resource Constraint | $\frac{G_t - 1}{G_t} \cdot Y_t + C_t = Y_t (1 - \Phi_t^p) + W_t Y_t \cdot \Phi_t^w$ | (3) |
-| Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot W_t^{-\tau} C_t^{\tau} Y_t^{\frac{1}{\nu}} + (1 - \Phi_t^w)\left(1 - \lambda_w^{-1}\right) =$ $\Delta_t^{w_{nom}} \cdot \Phi_t^{'w} - \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{R_t}{\Pi_{t+1} + \tilde{A}\_{t+1}} W_{t+1}^2 Y_{t+1} \cdot \Phi_{t+1}^{'w}$ | (4) |
-| Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p) - \Pi_t \cdot \Phi_t^{'p} - \frac{\mu_t}{\Lambda_t} = \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{\Pi_{t+1}}{ \tilde{A}\_{t+1} } \cdot \Phi_{t+1}^{'p} \cdot Y_{t+1} \tilde{A}_{t+1}$ | (5) |
-| Hours Equation | $W_t = (1 - \Phi_t^p) + \mu_t$ | (6) |
+| Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot W_t^{-1} C_t^{\tau} Y_t^{\frac{1}{\nu}} + (1 - \Phi_t^w)\left(1 - \lambda_w^{-1}\right) =$ $\Delta_t^{w_{nom}} \cdot \Phi_t^{'w} - \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \Pi_{t+1}\frac{R_t}{\tilde{A}\_{t+1}} W_{t+1}^2 Y_{t+1} \cdot \Phi_{t+1}^{'w}$ | (4) |
+| Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p) + \beta \left( \frac{C_{t+1}}{C_t} \right)^{- \tau} \frac{\Pi_{t+1}}{ \tilde{A}\_{t+1} } \cdot \Phi_{t+1}^{'p} \cdot Y_{t+1} \tilde{A}_{t+1} = \Pi_t \cdot \Phi_t^{'p} + \frac{\mu_t}{\Lambda_t}$  | (5) |
+| Hours Equation | $W_t = (1 - \Phi_t^p) - \mu_t$ | (6) |
 | Adjustment Costs, Nominal Wages | $\Phi_t^w = \frac{\phi_w}{\psi_w^2} \left( e^{-\psi_w (\Delta_{t}^{w_{nom}} - \gamma \Pi^\star)} + \psi_w (\Delta_{t}^{w_{nom}} - \gamma \Pi^\star) - 1 \right)$ | (7) |
 | Adjustment Costs, Prices | $\Phi_t^p = \frac{\phi_p}{\psi_p^2} \left(e^{-\psi_p (\Pi_t - \Pi^\star)} + \psi_p (\Pi_t - \Pi^\star) - 1\right)$ | (8) |
 | Derivative, Adjustment Costs Nominal Wages | $\Phi_t^{'w} = \frac{\phi_p}{\psi_p} \left( 1-e^{-\psi_p (\Delta_t^{w_{nom}} - \gamma \Pi^\star)}  \right)$ | (9) |
@@ -43,12 +43,12 @@ It's also important to note that their original code has everything in log level
 
 | Description | Equation | # |
 |-------------|----------|---|
-| Consumption Euler Equation | 1 = $\beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{r_t}}{e^{\pi_{t+1}+a_{t+1}}}$ | (1) |
+| Consumption Euler Equation | 1 = $\beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} e^{r_t-(\pi_{t+1}+a_{t+1})}$ | (1) |
 | Real Wage ($w_t$) Inflation  | $e^{\Delta_t^w} = \frac{e^{w_t}}{e^{w_{t-1}}} \cdot e^{a_t}$ | (2) |
 | Resource Constraint | $e^{c_t} + \frac{e^{g_t} - 1}{e^{g_t}} \cdot e^{y_t} = e^{y_t} (1 - \Phi_t^p) + e^{w_t+y_t} \cdot \Phi_t^w$ | (3) |
-| Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot e^{-\tau w_t + \tau c_t + \frac{1}{\nu} y_t} + (1 - \Phi_t^w)\left(1 - \lambda_w^{-1}\right)=$ $e^{\Delta_t^{w_{nom}}} \cdot \Phi_t^{'w} - \beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{R_t}}{e^{\pi_{t+1}+a_{t+1}}}e^{ 2 \Delta_{t+1}^w + \Delta_{t+1}^y} \cdot \Phi_{t+1}^{'w}$ | (4)  |
-| Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p) - e^{\pi_t} \cdot \Phi_t^{'p} - \frac{\mu_t}{e^{\lambda_t}} = \beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{\pi_{t+1}}}{e^{a_{t+1}}}  \cdot \Phi_{t+1}^{'p} \cdot e^{\Delta_{t+1}^y+a_{t+1}}$ | (5)  |
-| Hours Equation | $e^{w_t} = (1 - \Phi_t^p) + \mu_t$ | (6) |
+| Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot e^{-w_t + \tau c_t + \frac{1}{\nu} y_t} + (1 - \Phi_t^w)\left(1 - \lambda_w^{-1}\right)=$ $e^{\Delta_t^{w_{nom}}} \cdot \Phi_t^{'w} - \beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} e^{r_t-a_{t+1}}e^{\pi_{t+1}+2 \Delta_{t+1}^w + \Delta_{t+1}^y} \cdot \Phi_{t+1}^{'w}$ | (4)  |
+| Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p)+beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{\pi_{t+1}}}{e^{a_{t+1}}}  \cdot \Phi_{t+1}^{'p} \cdot e^{\Delta_{t+1}^y+a_{t+1}} = e^{\pi_t} \cdot \Phi_t^{'p} + \frac{\mu_t}{e^{\lambda_t}} $ | (5)  |
+| Hours Equation | $e^{w_t} = (1 - \Phi_t^p) - \mu_t$ | (6) |
 | Adjustment Costs, Nominal Wages | $\Phi_t^w = \frac{\phi_w}{\psi_w^2} \left(e^{-\psi_w (e^{\Delta_t^{w_{nom}}} - \gamma \pi^\star)} + \psi_w (e^{\Delta_t^{w_{nom}}}  - \gamma \pi^\star) - 1\right)$ | (7) |
 | Adjustment Costs, Prices | $\Phi_t^p = \frac{\phi_p}{\psi_p^2} \left(e^{-\psi_p (e^{\pi_t} - \pi^\star)} + \psi_p (e^{\pi_t} - \pi^\star) - 1\right)$ | (8) |
 | Derivative, Adjustment Costs Nominal Wages | $\Phi_t^{'w} = \frac{\phi_w}{\psi_w} \left(1 - e^{-\psi_w (e^{\Delta_t^{w_{nom}}} - \gamma \pi^\star)}\right)$ | (9) |
