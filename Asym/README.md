@@ -17,7 +17,7 @@ additional downward rigidity was formalized in a New Keynesian model first by Ki
 Ruge-Murcia (2009) and is based on observations first made by Keynes that have been
 continually reconfirmed. ABS code this structure by treating these adjustment cost functions
 (and their derivatives) as variables and then making the realizations themselves model
-equations. Many of the macro fundamentals are "detrended" (normalized by technology). Log technology is a random walk with drift, meaning only a noise process ($\exp(z_t)$) scaled by the dift shows up. To be consistent with the original notation, I denote this amorphous technology term by $\tilde{A}_t$.
+equations. Many of the macro fundamentals are "detrended" (normalized by technology). Log technology is a random walk with drift, meaning only a noise process ($\text{exp}(z_t$)) scaled by the dift shows up. To be consistent with the original notation, I denote this amorphous technology term by $\tilde{A}_t$.
 
 | Description | Equation | # |
 |-------------|----------|---|
@@ -47,7 +47,7 @@ It's also important to note that their original code has everything in log level
 | Real Wage ($w_t$) Inflation  | $e^{\Delta_t^w} = \frac{e^{w_t}}{e^{w_{t-1}}} \cdot e^{a_t}$ | (2) |
 | Resource Constraint | $e^{c_t} + \frac{e^{g_t} - 1}{e^{g_t}} \cdot e^{y_t} = e^{y_t} (1 - \Phi_t^p) + e^{w_t+y_t} \cdot \Phi_t^w$ | (3) |
 | Wage Equation, Household's problem | $\frac{\chi_h}{\lambda_w} \cdot e^{-w_t + \tau c_t + \frac{1}{\nu} y_t} + (1 - \Phi_t^w)\left(1 - \lambda_w^{-1}\right)=$ $e^{\Delta_t^{w_{nom}}} \cdot \Phi_t^{'w} - \beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} e^{r_t-a_{t+1}}e^{\pi_{t+1}+2 \Delta_{t+1}^w + \Delta_{t+1}^y} \cdot \Phi_{t+1}^{'w}$ | (4)  |
-| Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p)+beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{\pi_{t+1}}}{e^{a_{t+1}}}  \cdot \Phi_{t+1}^{'p} \cdot e^{\Delta_{t+1}^y+a_{t+1}} = e^{\pi_t} \cdot \Phi_t^{'p} + \frac{\mu_t}{e^{\lambda_t}} $ | (5)  |
+| Price Equation, Intermediate Firms problem | $(1 - \Phi_t^p)+\beta \left(\frac{e^{c_{t+1}}}{e^{c_t}}\right)^{- \tau} \frac{e^{\pi_{t+1}}}{e^{a_{t+1}}}  \cdot \Phi_{t+1}^{'p} \cdot e^{\Delta_{t+1}^y+a_{t+1}} = e^{\pi_t} \cdot \Phi_t^{'p} + \frac{\mu_t}{e^{\lambda_t}} $ | (5)  |
 | Hours Equation | $e^{w_t} = (1 - \Phi_t^p) - \mu_t$ | (6) |
 | Adjustment Costs, Nominal Wages | $\Phi_t^w = \frac{\phi_w}{\psi_w^2} \left(e^{-\psi_w (e^{\Delta_t^{w_{nom}}} - \gamma \pi^\star)} + \psi_w (e^{\Delta_t^{w_{nom}}}  - \gamma \pi^\star) - 1\right)$ | (7) |
 | Adjustment Costs, Prices | $\Phi_t^p = \frac{\phi_p}{\psi_p^2} \left(e^{-\psi_p (e^{\pi_t} - \pi^\star)} + \psi_p (e^{\pi_t} - \pi^\star) - 1\right)$ | (8) |
