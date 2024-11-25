@@ -7,5 +7,5 @@
     * Turns out under these assumptions, fundamentally the same as single good case. Plan to upload derivations at some point
 * Have also developed an open economy, multisector extension
     * Extremely complicated even in this vanilla setting
-    * Have to [solve](https://springerplus.springeropen.com/articles/10.1186/s40064-016-1810-8#Tab1) a non-linear Fredolm integral of the second time (if you want to stick with continuous time)
+    * Have to [solve](https://springerplus.springeropen.com/articles/10.1186/s40064-016-1810-8#Tab1) a non-linear Fredolm integral of the second kind (if you want to stick with continuous time)
     * Code (python) available upon request          
