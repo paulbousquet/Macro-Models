@@ -1,3 +1,5 @@
+%Created for Dynare 4.6.4
+
 dynare nkpf
 tic
 T=500;
