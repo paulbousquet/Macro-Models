@@ -42,7 +42,6 @@ options 						= optimoptions('fsolve','Display','iter-detailed');		% set 'off' i
 vMomentsHistogram 	    = zeros(2,1);
 vMomentsHistogram(1,1) = sum(mFineGrid(:,1) .* vHistogram);			% first moment of productivity
 vMomentsHistogram(2,1) = sum(log(mFineGrid(:,2)) .* vHistogram);		% first moment of log capital
-
 mGridMoments 				= zeros(nStateQuadrature,2);
 mGridMoments(:,1) 			= mQuadratureGrid(:,1) - vMomentsHistogram(1,1);
 mGridMoments(:,2) 			= log(mQuadratureGrid(:,2)) - vMomentsHistogram(2,1);
@@ -62,7 +61,7 @@ options 								= optimoptions(@fminunc,'Algorithm','quasi-newton','Display','no
 											'MaxFunEvals',50000,'TolFun',1e-12,'GradObj','on','MaxIter',1000);
 objectiveFunction 				= @(vParametersTilde) parametersResidual(vParametersTilde,mGridMoments);
 [vParameters,normalization] = fminunc(objectiveFunction,zeros(nMeasureCoefficients,1),options);
-%[vParameters,normalization] = fminunc(objectiveFunction,-1e-2*ones(nMeasureCoefficients,1),options);  % if optimizer is not converging or has problems with that initial guess, try this initial guess
+%[vParameters,normalization] = fminunc(objectiveFunction,-1e-2*ones(2,1),options);  % if optimizer is not converging or has problems with that initial guess, try this initial guess
 vParameters 						= [1 / normalization; vParameters];
 
 fprintf('Done! Time to compute: %2.2f seconds \n\n',toc(t0))

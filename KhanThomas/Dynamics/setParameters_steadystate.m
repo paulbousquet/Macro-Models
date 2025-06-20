@@ -42,7 +42,7 @@ acc 				= 500;									% number of iterations in "Howard improvement step"
 dampening 	= 0;										% weight on old iteration in updating step
 
 % Approximation of distribution
-%nMeasure 					= 2;							% order of polynomial approximating distribution
+nMeasure 					= 2;							% order of polynomial approximating distribution
 nProdQuadrature 		= 8; 							% number of quadrature points in productivity dimension
 nCapitalQuadrature 	= 10;						% number of quadrature points in capital dimension
 nStateQuadrature 		= nProdQuadrature * nCapitalQuadrature;

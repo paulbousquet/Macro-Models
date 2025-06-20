@@ -1,4 +1,4 @@
-function [ys,check] = dynamicModel_steadystate(ys,exo)
+function [ys,params,check] = dynamicModel_steadystate(ys,exo,M_,options_)
 
 % Computes stationary equilibrium of the model for Dynare; format is required
 % to be called by Dynare (follows example of NK_baseline.mod in Dynare examples)
@@ -17,11 +17,10 @@ fprintf('\nComputing steady state...\n')
 check = 0;
 
 % Read parameters from Dynare
-global M_ 
 
 % Read out parameters to access them with their name
 for iParameter = 1:M_.param_nbr
-  paramname = deblank(M_.param_names(iParameter,:));
+  paramname = M_.param_names{iParameter,:};
   eval(['global ' paramname]);
   eval([ paramname ' = M_.params(' int2str(iParameter) ');']);
 end
@@ -154,14 +153,19 @@ logMarginalUtility					= log(marginalUtilitySS);
 %----------------------------------------------------------------
 
 % Put endogenous variables back into ys
-for ii = 1 : M_.orig_endo_nbr;
-  varname = deblank(M_.endo_names(ii,:));
-  eval(['ys(' int2str(ii) ') = ' varname ';']); 
+params=NaN(M_.param_nbr,1);
+for iter = 1:length(M_.params) %update parameters set in the fileAdd commentMore actions
+    eval([ 'params(' num2str(iter) ',1) = ' M_.param_names{iter} ';' ])
+end
+for ii = 1 : M_.orig_endo_nbr
+  varname = M_.endo_names{ii,:};
+  eval(['ys(' int2str(ii) ',1) = ' varname ';']); 
 end
 
 % Update parameters which were changed in the steady state file
-for iParameter = 18:length(M_.params)                               % start at 18 ( = cchi) so don't reset other parameters, in case those are reset elsewhere
-  eval([ 'M_.params(' num2str(iParameter) ') = ' M_.param_names(iParameter,:) ';' ])
+for iParameter = 18:length(M_.params)  
+    paramname =  M_.param_names{iParameter,:};% start at 18 ( = cchi) so don't reset other parameters, in case those are reset elsewhere
+    eval([ 'M_.params(' num2str(iParameter) ') = ' paramname ';' ])
 end
 
 % Print elapsed time

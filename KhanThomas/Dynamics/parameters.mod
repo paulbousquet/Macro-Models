@@ -21,7 +21,7 @@ parameters ttheta nnu ddelta rrhoProd ssigmaProd aaUpper aaLower ppsiCapital
 // Load in their values
 @#define nEconomicParameters = 18
 for iParam = 1 : @{nEconomicParameters}
-	parameterName = deblank(M_.param_names(iParam,:));
+	parameterName = M_.param_names{iParam,:};
 	if isfield(economicParameters,parameterName)
 		M_.params(iParam) = eval(['economicParameters.' parameterName]);
 	end
@@ -32,7 +32,7 @@ parameters nProd nCapital nState nProdQuadrature nCapitalQuadrature nStateQuadra
 	nMeasure prodMin prodMax capitalMin capitalMax nShocks;
 @#define nApproximationParameters = 13
 for iParam = 1 : @{nApproximationParameters}
-	parameterName = deblank(M_.param_names(@{nEconomicParameters} + iParam,:));	
+	parameterName = M_.param_names{@{nEconomicParameters} + iParam,:};
 	if isfield(approximationParameters,parameterName)
 		M_.params(@{nEconomicParameters} + iParam) = eval(['approximationParameters.' parameterName]);
 	end	
@@ -41,7 +41,7 @@ end
 // Have to impose the parameters used as counters below exogenously
 @#define nProd 						= 3
 @#define nCapital 					= 5
-//@#define nMeasure 				= 2
+@#define nMeasure 				= 2
 @#define nShocks 					= 3
 @#define nProdQuadrature 		= 8
 @#define nCapitalQuadrature 	= 10
