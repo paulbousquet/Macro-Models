@@ -3,10 +3,6 @@ Driver script for the Hall of Mirrors model pipeline.
 
 Solves the NK model, CK and HoM equilibria, computes IRFs for all shock types,
 and generates plots matching Figures E.1-E.4 in Rungcharoenkitkul & Winkler.
-
-Usage:
-    cd /home/pblit/Music/Projects/cflow/test
-    python3 solve_hom.py
 """
 
 import os
