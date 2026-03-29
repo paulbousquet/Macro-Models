@@ -198,19 +198,18 @@ def build_H_h_perceived_by_c():
     return H_z @ D_z
 
 
-def build_H_c_own_hom(M_h_c, FI_uc):
+def build_H_c_own_hom(M_h_c, direct_uc_macro):
     """CB's own obs matrix under HoM (Eq C.21).
 
     The CB's perceived macro outcomes use M_h^{|c} (computed under the
     perceived HH info set without interest rate). The direct Z_t effect
-    on y_tilde and pi from u_c uses the full-information response FI_uc,
-    because the CB expects the reaction to u_c to be the same as under
-    full information (u_c enters the Taylor rule, affecting y and pi
-    indirectly through the NK system).
+    on y_tilde and pi from u_c uses the current NK-block loading on the
+    household's first-order u_c belief.
 
     Args:
         M_h_c: (3, DIM_M) M_h under CB-perceived HH info set.
-        FI_uc: (3,) full-information response of (y, pi, i) to u_c.
+        direct_uc_macro: (2,) direct impact of a current household u_c belief
+            on (y_tilde, pi) in the NK block.
 
     Returns:
         H: (5, DIM_X)
@@ -224,8 +223,8 @@ def build_H_c_own_hom(M_h_c, FI_uc):
     H_z[1, params.IDX_RSTAR] = 1.0
     H_z[1, params.IDX_F] = 1.0
     H_z[2, params.IDX_UC] = 1.0
-    H_z[3, params.IDX_UC] = FI_uc[0]  # FI response of y to u_c (C.21)
-    H_z[4, params.IDX_UC] = FI_uc[1]  # FI response of pi to u_c (C.21)
+    H_z[3, params.IDX_UC] = direct_uc_macro[0]
+    H_z[4, params.IDX_UC] = direct_uc_macro[1]
 
     H_m = np.zeros((N_OBS, params.DIM_M))
     H_m[3, :] = M_h_c[0, :]          # y_tilde belief-driven part
@@ -451,7 +450,8 @@ def solve_hom_equilibrium(M_h_func, FI_uc, ck_solution=None,
 
     Args:
         M_h_func: Callable(Phi_h, Psi_h, Omega_h) -> M_h (3, DIM_M).
-        FI_uc: (3,) full-information response of (y, pi, i) to u_c.
+        FI_uc: retained for compatibility with callers; phase 1 uses the
+            current household-side u_c loading instead.
         ck_solution: Optional CK equilibrium dict to warm-start iteration.
         tol: convergence tolerance.
         max_iter: maximum iterations.
@@ -521,7 +521,8 @@ def solve_hom_equilibrium(M_h_func, FI_uc, ck_solution=None,
             G_h_c, H_h_perc_c, A_Xh_c, B_mh_c, Phi_c_c, Omega_c_c)
 
         M_h_c_new = M_h_func(Phi_h_c, Psi_h_c, Omega_h_c)
-        H_c_c = build_H_c_own_hom(M_h_c_new, FI_uc)
+        M_h_h_cur = M_h_func(Phi_h_h, Psi_h_h, Omega_h_h)
+        H_c_c = build_H_c_own_hom(M_h_c_new, M_h_h_cur[:2, params.IDX_UC])
 
         A_Xc_c, B_qc_c, B_mc_c = build_state_space(Phi_h_c, Psi_h_c, Omega_h_c)
         G_c_c, P_c_c = solve_kalman_dare(A_Xc_c, B_qc_c, H_c_c, Sigma_q)
@@ -582,41 +583,60 @@ def solve_hom_equilibrium(M_h_func, FI_uc, ck_solution=None,
         if diff < tol:
             break
 
-    # ---- Phase 2: Actual equilibrium (Eqs C.24-C.26) ----
-    # Compute actual M_h using HH dynamics from h's own perceived world
+    # Recompute the phase-1 objects at the final fixed point so phase 2 uses
+    # internally consistent gains and observation matrices.
+    A_Xh_h, B_qh_h, B_mh_h = build_state_space(Phi_c_h, Psi_c_h, Omega_c_h)
+    G_h_h, P_h_h = solve_kalman_dare(A_Xh_h, B_qh_h, H_h_actual, Sigma_q)
+
+    A_Xc_h, B_qc_h, B_mc_h = build_state_space(Phi_h_h, Psi_h_h, Omega_h_h)
+    G_c_h, _ = solve_kalman_dare(A_Xc_h, B_qc_h, H_c_perc_h, Sigma_q)
+
+    A_Xh_c, B_qh_c, B_mh_c = build_state_space(Phi_c_c, Psi_c_c, Omega_c_c)
+    G_h_c, _ = solve_kalman_dare(A_Xh_c, B_qh_c, H_h_perc_c, Sigma_q)
+
     M_h_actual = M_h_func(Phi_h_h, Psi_h_h, Omega_h_h)
-    H_c_actual = build_H_c(M_h_actual)
+    M_h_c = M_h_func(Phi_h_c, Psi_h_c, Omega_h_c)
+    H_c_c = build_H_c_own_hom(M_h_c, M_h_actual[:2, params.IDX_UC])
+
+    A_Xc_c, B_qc_c, B_mc_c = build_state_space(Phi_h_c, Psi_h_c, Omega_h_c)
+    G_c_c, P_c_c = solve_kalman_dare(A_Xc_c, B_qc_c, H_c_c, Sigma_q)
+
+    # ---- Phase 2: Actual equilibrium (Eqs C.24-C.26) ----
+    # The paper's phase-2 recursion uses the phase-1 Kalman gains G_i^{|i},
+    # own signal matrices H_i^{|i}, and cross signal matrices H_i^{|j}.
+    # In this implementation:
+    # - H_h^{|h} and H_h^{|c} coincide with the household's actual signal map.
+    # - H_c^{|c} is the CB's own HoM observation map from Eq. C.21.
+    # - H_c^{|h} uses the macro mapping implied by the household's perceived world.
+    H_h_h = H_h_actual
+    H_h_c = H_h_actual
+    H_c_h = build_H_c(M_h_actual)
 
     I_X = np.eye(DIM_X)
     I_M = np.eye(DIM_M)
 
-    # Autonomous prediction coefficients (projected to DIM_M)
-    # D_mi extracts m_i (own-agent, positions 0:84)
-    # C_mi embeds m_i (own-agent); C_m embeds m_j (other agent)
-    auto_h = D_mi @ (I_X - G_h_h @ H_h_actual) @ (A_Xh_h + B_mh_h) @ C_mi
-    auto_c = D_mi @ (I_X - G_c_c @ H_c_c) @ (A_Xc_c + B_mc_c) @ C_mi
+    own_h = Phi_h_h - D_mi @ G_h_h @ H_h_h @ C_m @ Psi_c_h
+    own_c = Phi_c_c - D_mi @ G_c_c @ H_c_c @ C_m @ Psi_h_c
 
-    # Signal gains: own-agent extraction (D_mi), other-agent embedding (C_m)
-    sig_h = D_mi @ G_h_h @ H_h_actual @ C_m       # how m_c affects m_h
-    sig_c = D_mi @ G_c_c @ H_c_actual @ C_m       # how m_h affects m_c
+    cross_h = D_mi @ G_h_h @ H_h_c @ C_m
+    cross_c = D_mi @ G_c_c @ H_c_h @ C_m
 
-    # Cross-coupling inversion (Eqs C.24-C.26)
-    inv_h = np.linalg.inv(I_M - sig_h @ sig_c)
-    inv_c = np.linalg.inv(I_M - sig_c @ sig_h)
+    inv_h = np.linalg.inv(I_M - cross_h @ cross_c)
+    inv_c = np.linalg.inv(I_M - cross_c @ cross_h)
 
-    # Eq C.24: Phi
-    Phi_h_act = inv_h @ auto_h
-    Phi_c_act = inv_c @ auto_c
+    # Eq C.24
+    Phi_h_act = inv_h @ own_h
+    Phi_c_act = inv_c @ own_c
 
-    # Eq C.25: Psi
-    Psi_h_act = inv_h @ sig_h @ auto_c
-    Psi_c_act = inv_c @ sig_c @ auto_h
+    # Eq C.25
+    Psi_h_act = inv_h @ cross_h @ own_c
+    Psi_c_act = inv_c @ cross_c @ own_h
 
-    # Eq C.26: Omega
-    Omega_h_act = inv_h @ D_mi @ G_h_h @ H_h_actual @ (
-        I_X + C_m @ D_mi @ G_c_c @ H_c_actual) @ C_z
-    Omega_c_act = inv_c @ D_mi @ G_c_c @ H_c_actual @ (
-        I_X + C_m @ D_mi @ G_h_h @ H_h_actual) @ C_z
+    # Eq C.26
+    Omega_h_act = inv_h @ D_mi @ G_h_h @ H_h_c @ (
+        I_X + C_m @ D_mi @ G_c_c @ H_c_h) @ C_z
+    Omega_c_act = inv_c @ D_mi @ G_c_c @ H_c_h @ (
+        I_X + C_m @ D_mi @ G_h_h @ H_h_c) @ C_z
 
     return {
         'perceived': {
@@ -631,7 +651,21 @@ def solve_hom_equilibrium(M_h_func, FI_uc, ck_solution=None,
             'Phi_h': Phi_h_act, 'Psi_h': Psi_h_act, 'Omega_h': Omega_h_act,
             'Phi_c': Phi_c_act, 'Psi_c': Psi_c_act, 'Omega_c': Omega_c_act,
         },
-        'H_h': H_h_actual, 'H_c': H_c_actual, 'M_h': M_h_actual,
+        'debug': {
+            'H_h_actual': H_h_actual,
+            'H_c_actual': H_c_h,
+            'H_c_perc_h': H_c_perc_h,
+            'H_h_perc_c': H_h_perc_c,
+            'H_h_h': H_h_h,
+            'H_h_c': H_h_c,
+            'H_c_h': H_c_h,
+            'H_c_c': H_c_c,
+            'G_h_h': G_h_h,
+            'G_c_h': G_c_h,
+            'G_h_c': G_h_c,
+            'G_c_c': G_c_c,
+        },
+        'H_h': H_h_actual, 'H_c': H_c_h, 'M_h': M_h_actual,
         'converged': diff < tol,
         'iterations': it + 1,
         'final_diff': diff,

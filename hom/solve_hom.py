@@ -18,7 +18,8 @@ from belief_system import (
 )
 
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
-PP = 1  # model variables are already in percentage points
+PP_ANNUAL = 4.0  # r**, r*, i, and pi are quarterly model units; plots annualize them
+PP_LEVEL = 1.0   # output gap is not annualized
 
 
 # ======================================================================
@@ -247,34 +248,56 @@ def main():
     # Shock configurations matching paper's Figures E.1-E.4
     # ------------------------------------------------------------------
 
-    # E.1: Monetary policy shock -- normalized to 25bp i_t reduction under HoM
-    #   Use negative u_c (accommodative). Find scale s.t. HoM i_t[0] = -25bp.
+    # E.1: Monetary policy shock -- normalize to a 25bp annualized i_t reduction under HoM.
+    # In quarterly model units this is -0.25 / 4 on impact.
     test = compute_all_irfs(params.IDX_UC, -1.0, 20)
     hom_i0 = test['HoM'][2][0]  # i_path[0] for unit negative u_c under HoM
     if abs(hom_i0) > 1e-15:
-        # Scale so that HoM i_t[0] * PP = -0.25 pp (25bp reduction)
-        mp_shock_size = 0.25 / hom_i0  # negative (accommodative)
+        mp_shock_size = (0.25 / 4.0) / hom_i0  # negative (accommodative)
     else:
         mp_shock_size = -params.sigma_uc  # fallback
     print(f"\n  Monetary policy: HoM i_t[0] per unit negative u_c = {hom_i0:.6f}")
-    print(f"  Shock size for 25bp = {mp_shock_size:.6f}")
+    print(f"  Shock size for 25bp annualized = {mp_shock_size:.6f}")
 
     mp_irfs = compute_all_irfs(params.IDX_UC, mp_shock_size, 20)
 
-    # E.2: Demand shock -- 1 SD, negative (adverse demand)
-    demand_irfs = compute_all_irfs(params.IDX_UH, -params.sigma_uh, 40)
+    # E.2: Demand shock -- normalize to HoM i_t[0] = +0.59 annualized.
+    test = compute_all_irfs(params.IDX_UH, 1.0, 40)
+    hom_i0 = test['HoM'][2][0]
+    if abs(hom_i0) > 1e-15:
+        demand_shock_size = (0.59 / 4.0) / hom_i0
+    else:
+        demand_shock_size = params.sigma_uh
+    print(f"  Demand: HoM i_t[0] per unit u_h = {hom_i0:.6f}")
+    print(f"  Shock size for i_t[0] = +0.59 annualized = {demand_shock_size:.6f}")
 
-    # E.3: Cost-push shock -- 1 SD, positive (inflationary)
-    cp_irfs = compute_all_irfs(params.IDX_UP, params.sigma_up, 40)
+    demand_irfs = compute_all_irfs(params.IDX_UH, demand_shock_size, 40)
 
-    # E.4: r** fundamentals shock -- 1 percentage point decrease
-    rstar_irfs = compute_all_irfs(params.IDX_RSTAR, -1.0, 40)
+    # E.3: Cost-push shock -- normalize to HoM output gap = -0.6 on impact.
+    test = compute_all_irfs(params.IDX_UP, 1.0, 40)
+    hom_y0 = test['HoM'][3][0]
+    if abs(hom_y0) > 1e-15:
+        cp_shock_size = -0.6 / hom_y0
+    else:
+        cp_shock_size = params.sigma_up
+    print(f"  Cost-push: HoM y_t[0] per unit u_p = {hom_y0:.6f}")
+    print(f"  Shock size for y_t[0] = -0.6 = {cp_shock_size:.6f}")
+
+    cp_irfs = compute_all_irfs(params.IDX_UP, cp_shock_size, 40)
+
+    # E.4: r** fundamentals shock -- 1 percentage point annualized decrease.
+    # In quarterly model units this is -1 / 4 on impact.
+    rstar_irfs = compute_all_irfs(params.IDX_RSTAR, -0.25, 40)
 
     # Verify normalization
-    print(f"\n  E.1 HoM i_t[0] = {mp_irfs['HoM'][2][0] * PP:.3f} pp "
+    print(f"\n  E.1 HoM i_t[0] = {mp_irfs['HoM'][2][0] * PP_ANNUAL:.3f} pp "
           f"(target: -0.250)")
-    print(f"  E.1 FI  i_t[0] = {mp_irfs['FI'][2][0] * PP:.3f} pp")
-    print(f"  E.4 FI  r** beliefs[0] = {rstar_irfs['FI'][0][0] * PP:.3f} pp "
+    print(f"  E.1 FI  i_t[0] = {mp_irfs['FI'][2][0] * PP_ANNUAL:.3f} pp")
+    print(f"  E.2 HoM i_t[0] = {demand_irfs['HoM'][2][0] * PP_ANNUAL:.3f} pp "
+          f"(target: 0.590)")
+    print(f"  E.3 HoM y_t[0] = {cp_irfs['HoM'][3][0] * PP_LEVEL:.3f} pp "
+          f"(target: -0.600)")
+    print(f"  E.4 FI  r** beliefs[0] = {rstar_irfs['FI'][0][0] * PP_ANNUAL:.3f} pp "
           f"(target: -1.000)")
 
     all_shocks = [
@@ -318,16 +341,16 @@ def main():
         # ---- Top-left: r* beliefs ----
         ax = axes[0, 0]
         # True r** (black dotted)
-        ax.plot(quarters, fi[0] * PP, 'k:', linewidth=1.0, label=r'$r^{**}$')
+        ax.plot(quarters, fi[0] * PP_ANNUAL, 'k:', linewidth=1.0, label=r'$r^{**}$')
         # HH beliefs r* (blue: solid=HM, dashed=CK)
-        ax.plot(quarters, hom_d[0] * PP, 'b-', linewidth=1.5,
+        ax.plot(quarters, hom_d[0] * PP_ANNUAL, 'b-', linewidth=1.5,
                 label=r'$r^*_{HM}$')
-        ax.plot(quarters, ck_d[0] * PP, 'b--', linewidth=1.5,
+        ax.plot(quarters, ck_d[0] * PP_ANNUAL, 'b--', linewidth=1.5,
                 label=r'$r^*_{CK}$')
         # CB beliefs r̂* (red: solid=HM, dashed=CK)
-        ax.plot(quarters, hom_d[1] * PP, 'r-', linewidth=1.5,
+        ax.plot(quarters, hom_d[1] * PP_ANNUAL, 'r-', linewidth=1.5,
                 label=r'$\hat{r}^*_{HM}$')
-        ax.plot(quarters, ck_d[1] * PP, 'r--', linewidth=1.5,
+        ax.plot(quarters, ck_d[1] * PP_ANNUAL, 'r--', linewidth=1.5,
                 label=r'$\hat{r}^*_{CK}$')
         ax.axhline(y=0, color='gray', linewidth=0.5)
         ax.set_title("r* beliefs")
@@ -336,11 +359,11 @@ def main():
 
         # ---- Top-right: Interest rate ----
         ax = axes[0, 1]
-        ax.plot(quarters, hom_d[2] * PP, 'b-', linewidth=1.5,
+        ax.plot(quarters, hom_d[2] * PP_ANNUAL, 'b-', linewidth=1.5,
                 label=r'$i_{HM}$')
-        ax.plot(quarters, ck_d[2] * PP, 'r--', linewidth=1.5,
+        ax.plot(quarters, ck_d[2] * PP_ANNUAL, 'r--', linewidth=1.5,
                 label=r'$i_{CK}$')
-        ax.plot(quarters, fi[2] * PP, 'k:', linewidth=1.0,
+        ax.plot(quarters, fi[2] * PP_ANNUAL, 'k:', linewidth=1.0,
                 label=r'$i_{FI}$')
         ax.axhline(y=0, color='gray', linewidth=0.5)
         ax.set_title(r"Interest rate $i_t$")
@@ -349,11 +372,11 @@ def main():
 
         # ---- Bottom-left: Output gap ----
         ax = axes[1, 0]
-        ax.plot(quarters, hom_d[3] * PP, 'b-', linewidth=1.5,
+        ax.plot(quarters, hom_d[3] * PP_LEVEL, 'b-', linewidth=1.5,
                 label=r'$\tilde{y}_{HM}$')
-        ax.plot(quarters, ck_d[3] * PP, 'r--', linewidth=1.5,
+        ax.plot(quarters, ck_d[3] * PP_LEVEL, 'r--', linewidth=1.5,
                 label=r'$\tilde{y}_{CK}$')
-        ax.plot(quarters, fi[3] * PP, 'k:', linewidth=1.0,
+        ax.plot(quarters, fi[3] * PP_LEVEL, 'k:', linewidth=1.0,
                 label=r'$\tilde{y}_{FI}$')
         ax.axhline(y=0, color='gray', linewidth=0.5)
         ax.set_title(r"Output gap $\tilde{y}_t$")
@@ -362,11 +385,11 @@ def main():
 
         # ---- Bottom-right: Inflation ----
         ax = axes[1, 1]
-        ax.plot(quarters, hom_d[4] * PP, 'b-', linewidth=1.5,
+        ax.plot(quarters, hom_d[4] * PP_ANNUAL, 'b-', linewidth=1.5,
                 label=r'$\pi_{HM}$')
-        ax.plot(quarters, ck_d[4] * PP, 'r--', linewidth=1.5,
+        ax.plot(quarters, ck_d[4] * PP_ANNUAL, 'r--', linewidth=1.5,
                 label=r'$\pi_{CK}$')
-        ax.plot(quarters, fi[4] * PP, 'k:', linewidth=1.0,
+        ax.plot(quarters, fi[4] * PP_ANNUAL, 'k:', linewidth=1.0,
                 label=r'$\pi_{FI}$')
         ax.axhline(y=0, color='gray', linewidth=0.5)
         ax.set_title(r"Inflation $\pi_t$")
@@ -408,11 +431,11 @@ def main():
 
     # Quick sanity: FI long-run i for r** shock should approach -1pp (= r**)
     fi_rstar = rstar_irfs['FI']
-    print(f"\n  FI i_t at t=39 for r** shock: {fi_rstar[2][-1] * PP:.3f} pp "
+    print(f"\n  FI i_t at t=39 for r** shock: {fi_rstar[2][-1] * PP_ANNUAL:.3f} pp "
           f"(target: -1.0)")
-    print(f"  FI y_t at t=39 for r** shock: {fi_rstar[3][-1] * PP:.4f} pp "
+    print(f"  FI y_t at t=39 for r** shock: {fi_rstar[3][-1] * PP_LEVEL:.4f} pp "
           f"(target: 0)")
-    print(f"  FI pi_t at t=39 for r** shock: {fi_rstar[4][-1] * PP:.4f} pp "
+    print(f"  FI pi_t at t=39 for r** shock: {fi_rstar[4][-1] * PP_ANNUAL:.4f} pp "
           f"(target: 0)")
     print("=" * 60)
 
