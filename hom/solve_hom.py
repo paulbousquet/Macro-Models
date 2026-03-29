@@ -261,27 +261,15 @@ def main():
 
     mp_irfs = compute_all_irfs(params.IDX_UC, mp_shock_size, 20)
 
-    # E.2: Demand shock -- normalize to HoM i_t[0] = +0.59 annualized.
-    test = compute_all_irfs(params.IDX_UH, 1.0, 40)
-    hom_i0 = test['HoM'][2][0]
-    if abs(hom_i0) > 1e-15:
-        demand_shock_size = (0.59 / 4.0) / hom_i0
-    else:
-        demand_shock_size = params.sigma_uh
-    print(f"  Demand: HoM i_t[0] per unit u_h = {hom_i0:.6f}")
-    print(f"  Shock size for i_t[0] = +0.59 annualized = {demand_shock_size:.6f}")
+    # E.2: Demand shock -- raw -1 sigma shock.
+    demand_shock_size = -params.sigma_uh
+    print(f"  Demand: raw shock size = {demand_shock_size:.6f} (-1 sigma)")
 
     demand_irfs = compute_all_irfs(params.IDX_UH, demand_shock_size, 40)
 
-    # E.3: Cost-push shock -- normalize to HoM output gap = -0.6 on impact.
-    test = compute_all_irfs(params.IDX_UP, 1.0, 40)
-    hom_y0 = test['HoM'][3][0]
-    if abs(hom_y0) > 1e-15:
-        cp_shock_size = -0.6 / hom_y0
-    else:
-        cp_shock_size = params.sigma_up
-    print(f"  Cost-push: HoM y_t[0] per unit u_p = {hom_y0:.6f}")
-    print(f"  Shock size for y_t[0] = -0.6 = {cp_shock_size:.6f}")
+    # E.3: Cost-push shock -- raw +1 sigma shock.
+    cp_shock_size = params.sigma_up
+    print(f"  Cost-push: raw shock size = {cp_shock_size:.6f} (+1 sigma)")
 
     cp_irfs = compute_all_irfs(params.IDX_UP, cp_shock_size, 40)
 
@@ -294,9 +282,9 @@ def main():
           f"(target: -0.250)")
     print(f"  E.1 FI  i_t[0] = {mp_irfs['FI'][2][0] * PP_ANNUAL:.3f} pp")
     print(f"  E.2 HoM i_t[0] = {demand_irfs['HoM'][2][0] * PP_ANNUAL:.3f} pp "
-          f"(target: 0.590)")
+          f"(raw -1 sigma)")
     print(f"  E.3 HoM y_t[0] = {cp_irfs['HoM'][3][0] * PP_LEVEL:.3f} pp "
-          f"(target: -0.600)")
+          f"(raw +1 sigma)")
     print(f"  E.4 FI  r** beliefs[0] = {rstar_irfs['FI'][0][0] * PP_ANNUAL:.3f} pp "
           f"(target: -1.000)")
 
